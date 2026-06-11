@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerGPS - Register</title>
+</head>
+<body>
+
+    <h1>Create Your CareerGPS Account</h1>
+
+    <form id="registerForm">
+
+        <div>
+            <label>First Name</label><br>
+            <input
+                type="text"
+                id="firstName"
+                placeholder="Enter first name"
+            >
+            <div id="firstNameError" class="form-error"></div>
+        </div>
+
+        <br>
+
+        <div>
+            <label>Last Name</label><br>
+            <input
+                type="text"
+                id="lastName"
+                placeholder="Enter last name"
+            >
+            <div id="lastNameError" class="form-error"></div>
+        </div>
+
+        <br>
+
+        <div>
+            <label>Email</label><br>
+            <input
+                type="email"
+                id="email"
+                placeholder="Enter email"
+            >
+            <div id="emailError" class="form-error"></div>
+        </div>
+
+        <br>
+
+        <div>
+            <label>Password</label><br>
+            <input
+                type="password"
+                id="password"
+                placeholder="Enter password"
+            >
+            <div id="passwordError" class="form-error"></div>
+        </div>
+
+        <br>
+
+        <div>
+            <label>Confirm Password</label><br>
+            <input
+                type="password"
+                id="confirmPassword"
+                placeholder="Confirm password"
+            >
+            <div id="confirmError" class="form-error"></div>
+        </div>
+
+        <br>
+
+        <button type="submit">
+            Register
+        </button>
+
+    </form>
+
+    <script src="/static/js/register.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,76 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerGPS Dashboard</title>
+</head>
+
+<body>
+
+    <h1>CareerGPS Dashboard</h1>
+
+    <h2>Recommended Opportunities</h2>
+
+    <div id="recommendationsList">
+        Loading recommendations...
+    </div>
+
+    <hr>
+
+    <h2>Search Opportunities</h2>
+
+    <input
+        type="text"
+        id="searchInput"
+        placeholder="Search jobs..."
+    >
+
+    <select id="typeFilter">
+        <option value="">All Types</option>
+        <option value="Internship">Internship</option>
+        <option value="Job">Job</option>
+        <option value="Graduate Programme">Graduate Programme</option>
+        <option value="Learnership">Learnership</option>
+        <option value="Scholarship">Scholarship</option>
+        <option value="Bursary">Bursary</option>
+    </select>
+
+    <button id="searchBtn">
+        Search
+    </button>
+
+    <div id="opportunityResults"></div>
+
+    <hr>
+
+    <h2>My Applications</h2>
+
+    <div id="applicationsList">
+        Loading applications...
+    </div>
+
+    <hr>
+
+    <h2>Interview History</h2>
+
+    <div id="interviewHistoryList">
+        Loading interview history...
+    </div>
+
+    <hr>
+
+    <h2> › Interview Analytics</h2>
+
+    <div id="interviewAnalytics">
+        Loading analytics...
+    </div>
+
+    <script src="{% static 'js/dashboard.js' %}"></script>
+
+</body>
+
+</html>

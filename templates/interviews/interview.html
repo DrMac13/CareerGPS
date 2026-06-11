@@ -1,0 +1,39 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CareerGPS Interview Practice</title>
+</head>
+<body>
+
+    <h1>AI Interview Practice</h1>
+
+    <label>Select Role</label>
+
+    <select id="roleSelect">
+        <option value="Software Engineer">Software Engineer</option>
+        <option value="Data Analyst">Data Analyst</option>
+        <option value="Business Analyst">Business Analyst</option>
+    </select>
+
+    <button id="startInterviewBtn">
+        Start Interview
+    </button>
+
+    <hr>
+
+    <div id="questionsContainer"></div>
+
+    <br>
+
+    <button id="finishInterviewBtn" style="display: none;">
+        Finish Interview
+    </button>
+
+    <div id="reportContainer"></div>
+
+    <script src="{% static 'js/interview.js' %}"></script>
+
+</body>
+</html>
