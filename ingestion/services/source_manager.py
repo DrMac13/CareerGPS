@@ -71,3 +71,19 @@ def import_all_sources():
         "total_skipped": total_skipped,
         "sources": results
     }
+
+
+from ingestion.services.scrapers.capitec_scraper import (
+    scrape_capitec_jobs
+)
+
+SOURCES = [
+    {
+        "name": "Investec Careers",
+        "scraper": scrape_investec_jobs
+    },
+    {
+        "name": "Capitec Careers",
+        "scraper": scrape_capitec_jobs
+    },
+]
