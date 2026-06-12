@@ -4,6 +4,9 @@ from collections import Counter
 from recommendations.services.skill_gap_service import (
     calculate_skill_gap
 )
+from recommendations.services.learning_recommendation_service import (
+    get_learning_recommendations
+)
 
 
 def user_recommendations(request):
@@ -27,6 +30,10 @@ def user_recommendations(request):
         opportunity
         )
 
+        learning_resources = get_learning_recommendations(
+        skill_gap["missing_skills"]
+        )
+
         data.append({
             "id": opportunity.id,
             "title": opportunity.title,
@@ -39,6 +46,7 @@ def user_recommendations(request):
             "reasons": item["reasons"],
             "matched_skills": skill_gap["matched_skills"],
             "missing_skills": skill_gap["missing_skills"],
+            "learning_resources": learning_resources,
         })
 
     return JsonResponse({

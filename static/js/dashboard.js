@@ -48,6 +48,22 @@ function loadRecommendations() {
                     ? missingSkills.map(skill => `<span>${skill}</span>`).join(", ")
                     : "No skill gaps identified";
 
+                const learningResources =
+                    item.learning_resources || [];
+
+                const learningResourcesHtml =
+                    learningResources.length
+                        ? learningResources.map(resource => `
+                            <a
+                                href="${resource.url}"
+                                target="_blank"
+                            >
+                                Learn ${resource.skill}
+                            </a>
+                        `).join("<br>")
+                        : "No learning recommendations";
+
+
                 card.innerHTML = `
                     <h3>${item.title}</h3>
 
@@ -85,6 +101,14 @@ function loadRecommendations() {
                         <strong>Skill Gaps:</strong>
                         ${missingSkillsHtml}
                     </p>
+
+                    <p>
+                        <strong>Learning Resources:</strong>
+                    </p>
+
+                    <div>
+                        ${learningResourcesHtml}
+                    </div>
 
                     <button onclick="toggleBookmark(${item.id})">
                         Save Job

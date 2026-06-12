@@ -102,3 +102,38 @@ class ImportedOpportunity(models.Model):
 
     def __str__(self):
         return f"{self.title} - {self.company_name}"
+
+
+
+class ImportRun(models.Model):
+
+    started_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    source_name = models.CharField(
+        max_length=200
+    )
+
+    found_count = models.PositiveIntegerField(
+        default=0
+    )
+
+    imported_count = models.PositiveIntegerField(
+        default=0
+    )
+
+    skipped_count = models.PositiveIntegerField(
+        default=0
+    )
+
+    success = models.BooleanField(
+        default=True
+    )
+
+    error_message = models.TextField(
+        blank=True
+    )
+
+    def __str__(self):
+        return f"{self.source_name} - {self.started_at}"

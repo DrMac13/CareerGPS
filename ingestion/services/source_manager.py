@@ -1,5 +1,11 @@
+from ingestion.models import ImportRun
+
 from ingestion.services.scrapers.investec_scraper import (
     scrape_investec_jobs
+)
+
+from ingestion.services.scrapers.capitec_scraper import (
+    scrape_capitec_jobs
 )
 
 from ingestion.services.feed_importer import (
@@ -11,6 +17,10 @@ SOURCES = [
     {
         "name": "Investec Careers",
         "scraper": scrape_investec_jobs
+    },
+    {
+        "name": "Capitec Careers",
+        "scraper": scrape_capitec_jobs
     },
 ]
 
@@ -44,6 +54,14 @@ def import_all_sources():
             total_imported += imported_count
             total_skipped += skipped_count
 
+            ImportRun.objects.create(
+                source_name=source_name,
+                found_count=found_count,
+                imported_count=imported_count,
+                skipped_count=skipped_count,
+                success=True
+            )
+
             results.append({
                 "source": source_name,
                 "success": True,
@@ -55,13 +73,24 @@ def import_all_sources():
 
         except Exception as e:
 
+            error_message = str(e)
+
+            ImportRun.objects.create(
+                source_name=source_name,
+                found_count=0,
+                imported_count=0,
+                skipped_count=0,
+                success=False,
+                error_message=error_message
+            )
+
             results.append({
                 "source": source_name,
                 "success": False,
                 "found": 0,
                 "imported": 0,
                 "skipped": 0,
-                "error": str(e)
+                "error": error_message
             })
 
     return {
@@ -71,19 +100,3 @@ def import_all_sources():
         "total_skipped": total_skipped,
         "sources": results
     }
-
-
-from ingestion.services.scrapers.capitec_scraper import (
-    scrape_capitec_jobs
-)
-
-SOURCES = [
-    {
-        "name": "Investec Careers",
-        "scraper": scrape_investec_jobs
-    },
-    {
-        "name": "Capitec Careers",
-        "scraper": scrape_capitec_jobs
-    },
-]
