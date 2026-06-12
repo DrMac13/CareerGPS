@@ -1,4 +1,37 @@
-from opportunities.models import Company, Opportunity
+from profiles.models import Skill
+from opportunities.models import (
+    Company,
+    Opportunity,
+    OpportunitySkill
+)
+
+
+def attach_skills_to_opportunity(opportunity):
+
+    text = (
+        f"{opportunity.title} "
+        f"{opportunity.description}"
+    ).lower()
+
+    matched_count = 0
+
+    skills = Skill.objects.all()
+
+    for skill in skills:
+
+        skill_name = skill.name.lower()
+
+        if skill_name in text:
+
+            _, created = OpportunitySkill.objects.get_or_create(
+                opportunity=opportunity,
+                skill=skill
+            )
+
+            if created:
+                matched_count += 1
+
+    return matched_count
 
 
 def import_opportunity(
@@ -29,6 +62,10 @@ def import_opportunity(
             "source": "CareerGPS Import",
             "is_active": True,
         }
+    )
+
+    attached_skills = attach_skills_to_opportunity(
+        opportunity
     )
 
     return opportunity, created
