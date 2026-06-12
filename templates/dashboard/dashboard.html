@@ -1,91 +1,242 @@
 {% load static %}
 
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CareerGPS Dashboard</title>
+
+```
+<link
+    rel="stylesheet"
+    href="{% static 'css/dashboard.css' %}"
+>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+```
+
 </head>
 
 <body>
 
-    <h1>CareerGPS Dashboard</h1>
+```
+<div class="dashboard-layout">
 
-    <!-- RECOMMENDATIONS -->
-    <h2>› Recommended Opportunities</h2>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
 
-    <div id="recommendationsList">
-        Loading recommendations...
-    </div>
+        <div class="sidebar__logo">
+            CareerGPS
+        </div>
 
-    <hr>
+        <nav class="sidebar__nav">
 
-    <!-- SEARCH OPPORTUNITIES -->
-    <h2>› Search Opportunities</h2>
+            <a href="#recommendations">
+                › Recommendations
+            </a>
 
-    <input
-        type="text"
-        id="searchInput"
-        placeholder="Search jobs..."
-    >
+            <a href="#search">
+                › Search Opportunities
+            </a>
 
-    <select id="typeFilter">
-        <option value="">All Types</option>
-        <option value="Internship">Internship</option>
-        <option value="Job">Job</option>
-        <option value="Graduate Programme">Graduate Programme</option>
-        <option value="Learnership">Learnership</option>
-        <option value="Scholarship">Scholarship</option>
-        <option value="Bursary">Bursary</option>
-    </select>
+            <a href="#applications">
+                › My Applications
+            </a>
 
-    <button id="searchBtn">
-        Search
-    </button>
+            <a href="#history">
+                › Interview History
+            </a>
 
-    <div id="opportunityResults"></div>
+            <a href="#analytics">
+                › Interview Analytics
+            </a>
 
-    <hr>
+        </nav>
 
-    <!-- APPLICATIONS -->
-    <h2>› My Applications</h2>
+    </aside>
 
-    <div id="applicationsList">
-        Loading applications...
-    </div>
+    <!-- MAIN CONTENT -->
+    <main class="main">
 
-    <hr>
+        <div class="dashboard-header">
 
-    <!-- INTERVIEW HISTORY -->
-    <h2>› Interview History</h2>
+            <h1>
+                Welcome to CareerGPS
+            </h1>
 
-    <div id="interviewHistoryList">
-        Loading interview history...
-    </div>
+            <p>
+                Discover opportunities, track applications,
+                and improve your interview performance.
+            </p>
 
-    <hr>
+        </div>
 
-    <!-- INTERVIEW ANALYTICS -->
-    <h2>› Interview Analytics</h2>
+        <!-- RECOMMENDATIONS -->
+        <section
+            id="recommendations"
+            class="section"
+        >
 
-    <div id="interviewAnalytics">
-        Loading analytics...
-    </div>
+            <h2 class="section__title">
+                › Recommended Opportunities
+            </h2>
 
-    <h3>Interview Score Trend</h3>
+            <div
+                id="recommendationsList"
+                class="card-grid"
+            >
+                Loading recommendations...
+            </div>
 
-    <canvas
-        id="interviewTrendChart"
-        width="400"
-        height="160"
-    ></canvas>
+        </section>
 
-    <!-- SCRIPTS -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="{% static 'js/dashboard.js' %}"></script>
+        <!-- SEARCH -->
+        <section
+            id="search"
+            class="section"
+        >
+
+            <h2 class="section__title">
+                › Search Opportunities
+            </h2>
+
+            <div class="search-panel">
+
+                <div class="search-controls">
+
+                    <input
+                        type="text"
+                        id="searchInput"
+                        placeholder="Search jobs..."
+                    >
+
+                    <select id="typeFilter">
+
+                        <option value="">
+                            All Types
+                        </option>
+
+                        <option value="Internship">
+                            Internship
+                        </option>
+
+                        <option value="Job">
+                            Job
+                        </option>
+
+                        <option value="Graduate Programme">
+                            Graduate Programme
+                        </option>
+
+                        <option value="Learnership">
+                            Learnership
+                        </option>
+
+                        <option value="Scholarship">
+                            Scholarship
+                        </option>
+
+                        <option value="Bursary">
+                            Bursary
+                        </option>
+
+                    </select>
+
+                    <button id="searchBtn">
+                        Search
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div
+                id="opportunityResults"
+                class="card-grid"
+            ></div>
+
+        </section>
+
+        <!-- APPLICATIONS -->
+        <section
+            id="applications"
+            class="section"
+        >
+
+            <h2 class="section__title">
+                › My Applications
+            </h2>
+
+            <div
+                id="applicationsList"
+                class="card-grid"
+            >
+                Loading applications...
+            </div>
+
+        </section>
+
+        <!-- INTERVIEW HISTORY -->
+        <section
+            id="history"
+            class="section"
+        >
+
+            <h2 class="section__title">
+                › Interview History
+            </h2>
+
+            <div
+                id="interviewHistoryList"
+                class="card-grid"
+            >
+                Loading interview history...
+            </div>
+
+        </section>
+
+        <!-- ANALYTICS -->
+        <section
+            id="analytics"
+            class="section"
+        >
+
+            <h2 class="section__title">
+                › Interview Analytics
+            </h2>
+
+            <div
+                id="interviewAnalytics"
+                class="card-grid"
+            >
+                Loading analytics...
+            </div>
+
+            <br>
+
+            <div class="chart-card">
+
+                <h3>
+                    Interview Score Trend
+                </h3>
+
+                <canvas
+                    id="interviewTrendChart"
+                ></canvas>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script src="{% static 'js/dashboard.js' %}"></script>
+```
 
 </body>
-
 </html>
