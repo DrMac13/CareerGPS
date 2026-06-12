@@ -1,47 +1,55 @@
 from django.core.management.base import BaseCommand
 
-from ingestion.services.scrapers.investec_scraper import (
-    scrape_investec_jobs
-)
-
-from ingestion.services.feed_importer import (
-    import_feed
+from ingestion.services.source_manager import (
+    import_all_sources
 )
 
 
 class Command(BaseCommand):
 
-    help = "Import real opportunities into CareerGPS"
+    help = "Import opportunities from all configured sources"
 
     def handle(self, *args, **options):
 
         self.stdout.write(
-            "Starting Investec job import..."
+            "Starting multi-source job import..."
         )
 
-        try:
+        result = import_all_sources()
 
-            jobs = scrape_investec_jobs()
+        for source in result["sources"]:
 
-            result = import_feed(
-                jobs
-            )
+            if source["success"]:
 
-            self.stdout.write(
-                self.style.SUCCESS(
-                    (
-                        "Investec import complete. "
-                        f"Found: {len(jobs)}, "
-                        f"Imported: {result['imported_count']}, "
-                        f"Skipped: {result['skipped_count']}"
+                self.stdout.write(
+                    self.style.SUCCESS(
+                        (
+                            f"{source['source']}: "
+                            f"Found {source['found']}, "
+                            f"Imported {source['imported']}, "
+                            f"Skipped {source['skipped']}"
+                        )
                     )
                 )
-            )
 
-        except Exception as e:
+            else:
 
-            self.stdout.write(
-                self.style.ERROR(
-                    f"Import failed: {str(e)}"
+                self.stdout.write(
+                    self.style.ERROR(
+                        (
+                            f"{source['source']} failed: "
+                            f"{source['error']}"
+                        )
+                    )
+                )
+
+        self.stdout.write(
+            self.style.SUCCESS(
+                (
+                    "Import finished. "
+                    f"Total found: {result['total_found']}, "
+                    f"Total imported: {result['total_imported']}, "
+                    f"Total skipped: {result['total_skipped']}"
                 )
             )
+        )
