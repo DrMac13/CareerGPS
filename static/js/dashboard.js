@@ -431,6 +431,10 @@ function loadInterviewAnalytics() {
             const analytics =
                 data.analytics;
 
+            renderInterviewTrendChart(
+                analytics.trend
+            );
+
             container.innerHTML = `
                 <div>
 
@@ -466,6 +470,7 @@ function loadInterviewAnalytics() {
 
                 </div>
             `;
+            renderInterviewTrendChart(analytics.trend);
 
         })
         .catch(error => {
@@ -478,4 +483,108 @@ function loadInterviewAnalytics() {
                 "<p>Error loading analytics.</p>";
 
         });
+}
+
+function renderInterviewTrendChart(trendData) {
+    const canvas = document.getElementById("interviewTrendChart");
+
+    if (!canvas || !trendData || trendData.length === 0) {
+        return;
+    }
+
+    const labels = trendData.map(item => item.label);
+    const scores = trendData.map(item => item.score);
+
+    new Chart(canvas, {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: "Interview Score",
+                    data: scores,
+                    tension: 0.3
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100
+                }
+            }
+        }
+    });
+}
+
+
+let interviewTrendChart = null;
+
+function renderInterviewTrendChart(trendData) {
+
+    const canvas =
+        document.getElementById(
+            "interviewTrendChart"
+        );
+
+    if (
+        !canvas ||
+        !trendData ||
+        trendData.length === 0
+    ) {
+        return;
+    }
+
+    if (interviewTrendChart) {
+        interviewTrendChart.destroy();
+    }
+
+    const labels =
+        trendData.map(
+            item => item.label
+        );
+
+    const scores =
+        trendData.map(
+            item => item.score
+        );
+
+    interviewTrendChart = new Chart(canvas, {
+
+        type: "line",
+
+        data: {
+
+            labels: labels,
+
+            datasets: [
+
+                {
+                    label: "Interview Score",
+                    data: scores,
+                    tension: 0.3,
+                    fill: false
+                }
+
+            ]
+        },
+
+        options: {
+
+            responsive: true,
+
+            scales: {
+
+                y: {
+
+                    beginAtZero: true,
+
+                    max: 100
+
+                }
+            }
+        }
+    });
 }

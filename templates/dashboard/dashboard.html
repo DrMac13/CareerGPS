@@ -13,7 +13,8 @@
 
     <h1>CareerGPS Dashboard</h1>
 
-    <h2>Recommended Opportunities</h2>
+    <!-- RECOMMENDATIONS -->
+    <h2>› Recommended Opportunities</h2>
 
     <div id="recommendationsList">
         Loading recommendations...
@@ -21,7 +22,8 @@
 
     <hr>
 
-    <h2>Search Opportunities</h2>
+    <!-- SEARCH OPPORTUNITIES -->
+    <h2>› Search Opportunities</h2>
 
     <input
         type="text"
@@ -47,7 +49,8 @@
 
     <hr>
 
-    <h2>My Applications</h2>
+    <!-- APPLICATIONS -->
+    <h2>› My Applications</h2>
 
     <div id="applicationsList">
         Loading applications...
@@ -55,7 +58,8 @@
 
     <hr>
 
-    <h2>Interview History</h2>
+    <!-- INTERVIEW HISTORY -->
+    <h2>› Interview History</h2>
 
     <div id="interviewHistoryList">
         Loading interview history...
@@ -63,12 +67,23 @@
 
     <hr>
 
-    <h2> › Interview Analytics</h2>
+    <!-- INTERVIEW ANALYTICS -->
+    <h2>› Interview Analytics</h2>
 
     <div id="interviewAnalytics">
         Loading analytics...
     </div>
 
+    <h3>Interview Score Trend</h3>
+
+    <canvas
+        id="interviewTrendChart"
+        width="400"
+        height="160"
+    ></canvas>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="{% static 'js/dashboard.js' %}"></script>
 
 </body>

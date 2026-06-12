@@ -358,6 +358,16 @@ def interview_analytics(request):
         key=role_averages.get
     )
 
+    trend = []
+
+    for index, session in enumerate(sessions.order_by("started_at"), start=1):
+        trend.append({
+            "label": f"Interview {index}",
+            "role": session.role,
+            "score": session.overall_score,
+            "date": session.started_at.strftime("%Y-%m-%d")
+        })
+
     return JsonResponse({
 
         "success": True,
@@ -381,5 +391,8 @@ def interview_analytics(request):
 
             "weakest_role":
                 weakest_role,
+            
+            "trend": 
+                trend,
         }
     })
