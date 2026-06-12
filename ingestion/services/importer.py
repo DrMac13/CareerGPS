@@ -1,4 +1,8 @@
-from profiles.models import Skill
+from profiles.models import (
+    Skill,
+    Interest
+)
+
 from opportunities.models import (
     Company,
     Opportunity,
@@ -34,6 +38,31 @@ def attach_skills_to_opportunity(opportunity):
     return matched_count
 
 
+def get_matched_interests(opportunity):
+
+    text = (
+        f"{opportunity.title} "
+        f"{opportunity.description} "
+        f"{opportunity.opportunity_type} "
+        f"{opportunity.company.industry}"
+    ).lower()
+
+    matched_interests = []
+
+    interests = Interest.objects.all()
+
+    for interest in interests:
+
+        interest_name = interest.name.lower()
+
+        if interest_name in text:
+            matched_interests.append(
+                interest.name
+            )
+
+    return matched_interests
+
+
 def import_opportunity(
     title,
     company_name,
@@ -65,6 +94,10 @@ def import_opportunity(
     )
 
     attached_skills = attach_skills_to_opportunity(
+        opportunity
+    )
+
+    matched_interests = get_matched_interests(
         opportunity
     )
 
