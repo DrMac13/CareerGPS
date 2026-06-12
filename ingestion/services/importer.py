@@ -9,6 +9,10 @@ from opportunities.models import (
     OpportunitySkill
 )
 
+from ingestion.services.job_detail_enricher import (
+    enrich_job_description
+)
+
 
 def attach_skills_to_opportunity(opportunity):
 
@@ -63,6 +67,26 @@ def get_matched_interests(opportunity):
     return matched_interests
 
 
+def enrich_opportunity_description(opportunity):
+
+    try:
+
+        enriched_description = enrich_job_description(
+            opportunity.application_url
+        )
+
+        if (
+            enriched_description
+            and len(enriched_description) > len(opportunity.description)
+        ):
+
+            opportunity.description = enriched_description
+            opportunity.save()
+
+    except Exception:
+        pass
+
+
 def import_opportunity(
     title,
     company_name,
@@ -93,11 +117,11 @@ def import_opportunity(
         }
     )
 
-    attached_skills = attach_skills_to_opportunity(
+    enrich_opportunity_description(
         opportunity
     )
 
-    matched_interests = get_matched_interests(
+    attach_skills_to_opportunity(
         opportunity
     )
 
