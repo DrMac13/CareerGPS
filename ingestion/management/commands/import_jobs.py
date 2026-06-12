@@ -1,28 +1,23 @@
 from django.core.management.base import BaseCommand
 
-from ingestion.services.mock_importer import (
-    import_mock_jobs
-)
+from ingestion.services.mock_importer import import_mock_jobs
 
 
 class Command(BaseCommand):
 
-    help = "Import opportunities from external feeds"
+    help = "Import opportunities into CareerGPS"
 
-    def handle(self, *args, **kwargs):
+    def handle(self, *args, **options):
 
         result = import_mock_jobs()
 
         if result["success"]:
-
             self.stdout.write(
                 self.style.SUCCESS(
-                    f"Imported {result['jobs_imported']} jobs"
+                    f"Imported {result['jobs_imported']} jobs successfully."
                 )
             )
-
         else:
-
             self.stdout.write(
                 self.style.ERROR(
                     result["error"]
