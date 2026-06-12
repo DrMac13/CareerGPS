@@ -1,6 +1,9 @@
 from django.http import JsonResponse
 from recommendations.services.matcher import generate_recommendations_for_user
 from collections import Counter
+from recommendations.services.skill_gap_service import (
+    calculate_skill_gap
+)
 
 
 def user_recommendations(request):
@@ -16,7 +19,13 @@ def user_recommendations(request):
     data = []
 
     for item in recommendations:
+
         opportunity = item["opportunity"]
+
+        skill_gap = calculate_skill_gap(
+        request.user,
+        opportunity
+        )
 
         data.append({
             "id": opportunity.id,
@@ -28,6 +37,8 @@ def user_recommendations(request):
             "application_url": opportunity.application_url,
             "match_score": item["score"],
             "reasons": item["reasons"],
+            "matched_skills": skill_gap["matched_skills"],
+            "missing_skills": skill_gap["missing_skills"],
         })
 
     return JsonResponse({

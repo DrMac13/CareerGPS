@@ -22,14 +22,9 @@ function loadRecommendations() {
         .then(data => {
 
             const container =
-                document.getElementById(
-                    "recommendationsList"
-                );
+                document.getElementById("recommendationsList");
 
-            if (
-                !data.success ||
-                data.recommendations.length === 0
-            ) {
+            if (!data.success || data.recommendations.length === 0) {
                 container.innerHTML =
                     "<p>No recommendations found.</p>";
                 return;
@@ -39,12 +34,21 @@ function loadRecommendations() {
 
             data.recommendations.forEach(item => {
 
-                const card =
-                    document.createElement("div");
+                const card = document.createElement("div");
+                card.classList.add("card");
+
+                const matchedSkills = item.matched_skills || [];
+                const missingSkills = item.missing_skills || [];
+
+                const matchedSkillsHtml = matchedSkills.length
+                    ? matchedSkills.map(skill => `<span>${skill}</span>`).join(", ")
+                    : "No matched skills";
+
+                const missingSkillsHtml = missingSkills.length
+                    ? missingSkills.map(skill => `<span>${skill}</span>`).join(", ")
+                    : "No skill gaps identified";
 
                 card.innerHTML = `
-                    <hr>
-
                     <h3>${item.title}</h3>
 
                     <p>
@@ -72,6 +76,16 @@ function loadRecommendations() {
                         ${item.reasons}
                     </p>
 
+                    <p>
+                        <strong>Matched Skills:</strong>
+                        ${matchedSkillsHtml}
+                    </p>
+
+                    <p>
+                        <strong>Skill Gaps:</strong>
+                        ${missingSkillsHtml}
+                    </p>
+
                     <button onclick="toggleBookmark(${item.id})">
                         Save Job
                     </button>
@@ -89,56 +103,36 @@ function loadRecommendations() {
                 `;
 
                 container.appendChild(card);
-
             });
 
         })
         .catch(error => {
-
             console.error(error);
 
-            document.getElementById(
-                "recommendationsList"
-            ).innerHTML =
+            document.getElementById("recommendationsList").innerHTML =
                 "<p>Error loading recommendations.</p>";
-
         });
-
 }
-
 
 
 function loadOpportunities() {
 
     const search =
-        document.getElementById(
-            "searchInput"
-        ).value;
+        document.getElementById("searchInput").value;
 
     const type =
-        document.getElementById(
-            "typeFilter"
-        ).value;
+        document.getElementById("typeFilter").value;
 
-    fetch(
-        `/api/opportunities/?search=${search}&type=${type}`
-    )
+    fetch(`/api/opportunities/?search=${search}&type=${type}`)
         .then(response => response.json())
         .then(data => {
 
             const container =
-                document.getElementById(
-                    "opportunityResults"
-                );
+                document.getElementById("opportunityResults");
 
-            if (
-                !data.success ||
-                data.opportunities.length === 0
-            ) {
-
+            if (!data.success || data.opportunities.length === 0) {
                 container.innerHTML =
                     "<p>No opportunities found.</p>";
-
                 return;
             }
 
@@ -146,12 +140,10 @@ function loadOpportunities() {
 
             data.opportunities.forEach(job => {
 
-                const card =
-                    document.createElement("div");
+                const card = document.createElement("div");
+                card.classList.add("card");
 
                 card.innerHTML = `
-                    <hr>
-
                     <h3>${job.title}</h3>
 
                     <p>
@@ -191,99 +183,62 @@ function loadOpportunities() {
                 `;
 
                 container.appendChild(card);
-
             });
 
         })
         .catch(error => {
-
             console.error(error);
 
-            document.getElementById(
-                "opportunityResults"
-            ).innerHTML =
+            document.getElementById("opportunityResults").innerHTML =
                 "<p>Error loading opportunities.</p>";
-
         });
-
 }
-
 
 
 function toggleBookmark(opportunityId) {
 
     fetch("/api/bookmarks/toggle/", {
-
         method: "POST",
-
         headers: {
             "Content-Type": "application/json"
         },
-
         body: JSON.stringify({
             opportunity_id: opportunityId
         })
-
     })
         .then(response => response.json())
         .then(data => {
-
-            alert(
-                data.message ||
-                "Bookmark updated"
-            );
-
+            alert(data.message || "Bookmark updated");
         })
         .catch(error => {
-
             console.error(error);
-
-            alert(
-                "Error saving opportunity"
-            );
-
+            alert("Error saving opportunity");
         });
-
 }
 
 
 function applyToOpportunity(opportunityId) {
 
     fetch("/api/opportunities/apply/", {
-
         method: "POST",
-
         headers: {
             "Content-Type": "application/json"
         },
-
         body: JSON.stringify({
             opportunity_id: opportunityId
         })
-
     })
         .then(response => response.json())
         .then(data => {
-
-            alert(
-                data.message ||
-                "Application updated"
-            );
-
+            alert(data.message || "Application updated");
             loadApplications();
-
         })
         .catch(error => {
-
             console.error(error);
-
-            alert(
-                "Error applying"
-            );
-
+            alert("Error applying");
         });
-
 }
+
 
 function loadApplications() {
 
@@ -292,18 +247,11 @@ function loadApplications() {
         .then(data => {
 
             const container =
-                document.getElementById(
-                    "applicationsList"
-                );
+                document.getElementById("applicationsList");
 
-            if (
-                !data.success ||
-                data.applications.length === 0
-            ) {
-
+            if (!data.success || data.applications.length === 0) {
                 container.innerHTML =
                     "<p>No applications yet.</p>";
-
                 return;
             }
 
@@ -311,12 +259,10 @@ function loadApplications() {
 
             data.applications.forEach(app => {
 
-                const card =
-                    document.createElement("div");
+                const card = document.createElement("div");
+                card.classList.add("card");
 
                 card.innerHTML = `
-                    <hr>
-
                     <h3>${app.title}</h3>
 
                     <p>
@@ -348,46 +294,63 @@ function loadApplications() {
                 `;
 
                 container.appendChild(card);
-
             });
 
         })
         .catch(error => {
-
             console.error(error);
 
-            document.getElementById(
-                "applicationsList"
-            ).innerHTML =
+            document.getElementById("applicationsList").innerHTML =
                 "<p>Error loading applications.</p>";
-
         });
-
 }
 
+
 function loadInterviewHistory() {
+
     fetch("/api/interviews/history/")
         .then(response => response.json())
         .then(data => {
-            const container = document.getElementById("interviewHistoryList");
+
+            const container =
+                document.getElementById("interviewHistoryList");
 
             if (!data.success || data.history.length === 0) {
-                container.innerHTML = "<p>No interviews completed yet.</p>";
+                container.innerHTML =
+                    "<p>No interviews completed yet.</p>";
                 return;
             }
 
             container.innerHTML = "";
 
             data.history.forEach(session => {
+
                 const card = document.createElement("div");
+                card.classList.add("card");
 
                 card.innerHTML = `
-                    <hr>
                     <h3>${session.role}</h3>
-                    <p><strong>Started:</strong> ${session.started_at}</p>
-                    <p><strong>Completed:</strong> ${session.completed_at || "Not completed"}</p>
-                    <p><strong>Questions Answered:</strong> ${session.responses_count}</p>
-                    <p><strong>Overall Score:</strong> ${session.overall_score ?? "Pending"}%</p>
+
+                    <p>
+                        <strong>Started:</strong>
+                        ${session.started_at}
+                    </p>
+
+                    <p>
+                        <strong>Completed:</strong>
+                        ${session.completed_at || "Not completed"}
+                    </p>
+
+                    <p>
+                        <strong>Questions Answered:</strong>
+                        ${session.responses_count}
+                    </p>
+
+                    <p>
+                        <strong>Overall Score:</strong>
+                        ${session.overall_score ?? "Pending"}%
+                    </p>
+
                     <a href="/interview/">
                         Practice Again
                     </a>
@@ -395,9 +358,11 @@ function loadInterviewHistory() {
 
                 container.appendChild(card);
             });
+
         })
         .catch(error => {
             console.error(error);
+
             document.getElementById("interviewHistoryList").innerHTML =
                 "<p>Error loading interview history.</p>";
         });
@@ -411,113 +376,59 @@ function loadInterviewAnalytics() {
         .then(data => {
 
             const container =
-                document.getElementById(
-                    "interviewAnalytics"
-                );
+                document.getElementById("interviewAnalytics");
 
-            if (
-                !data.success ||
-                data.analytics.total_interviews === 0
-            ) {
-
+            if (!data.success || data.analytics.total_interviews === 0) {
                 container.innerHTML = `
-                    <p>
+                    <div class="empty-state">
                         No completed interviews yet.
-                    </p>
+                    </div>
                 `;
-
                 return;
             }
 
-            const analytics =
-                data.analytics;
-
-            renderInterviewTrendChart(
-                analytics.trend
-            );
+            const analytics = data.analytics;
 
             container.innerHTML = `
-                <div>
+                <div class="card">
+                    <h3>Total Interviews</h3>
+                    <p>${analytics.total_interviews}</p>
+                </div>
 
-                    <p>
-                        <strong>Total Interviews:</strong>
-                        ${analytics.total_interviews}
-                    </p>
+                <div class="card">
+                    <h3>Average Score</h3>
+                    <p>${analytics.average_score}%</p>
+                </div>
 
-                    <p>
-                        <strong>Average Score:</strong>
-                        ${analytics.average_score}%
-                    </p>
+                <div class="card">
+                    <h3>Highest Score</h3>
+                    <p>${analytics.highest_score}%</p>
+                </div>
 
-                    <p>
-                        <strong>Highest Score:</strong>
-                        ${analytics.highest_score}%
-                    </p>
+                <div class="card">
+                    <h3>Lowest Score</h3>
+                    <p>${analytics.lowest_score}%</p>
+                </div>
 
-                    <p>
-                        <strong>Lowest Score:</strong>
-                        ${analytics.lowest_score}%
-                    </p>
+                <div class="card">
+                    <h3>Strongest Role</h3>
+                    <p>${analytics.strongest_role}</p>
+                </div>
 
-                    <p>
-                        <strong>Strongest Role:</strong>
-                        ${analytics.strongest_role}
-                    </p>
-
-                    <p>
-                        <strong>Weakest Role:</strong>
-                        ${analytics.weakest_role}
-                    </p>
-
+                <div class="card">
+                    <h3>Weakest Role</h3>
+                    <p>${analytics.weakest_role}</p>
                 </div>
             `;
-            renderInterviewTrendChart(analytics.trend);
 
+            renderInterviewTrendChart(analytics.trend);
         })
         .catch(error => {
-
             console.error(error);
 
-            document.getElementById(
-                "interviewAnalytics"
-            ).innerHTML =
+            document.getElementById("interviewAnalytics").innerHTML =
                 "<p>Error loading analytics.</p>";
-
         });
-}
-
-function renderInterviewTrendChart(trendData) {
-    const canvas = document.getElementById("interviewTrendChart");
-
-    if (!canvas || !trendData || trendData.length === 0) {
-        return;
-    }
-
-    const labels = trendData.map(item => item.label);
-    const scores = trendData.map(item => item.score);
-
-    new Chart(canvas, {
-        type: "line",
-        data: {
-            labels: labels,
-            datasets: [
-                {
-                    label: "Interview Score",
-                    data: scores,
-                    tension: 0.3
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    max: 100
-                }
-            }
-        }
-    });
 }
 
 
@@ -526,15 +437,9 @@ let interviewTrendChart = null;
 function renderInterviewTrendChart(trendData) {
 
     const canvas =
-        document.getElementById(
-            "interviewTrendChart"
-        );
+        document.getElementById("interviewTrendChart");
 
-    if (
-        !canvas ||
-        !trendData ||
-        trendData.length === 0
-    ) {
+    if (!canvas || !trendData || trendData.length === 0) {
         return;
     }
 
@@ -543,130 +448,92 @@ function renderInterviewTrendChart(trendData) {
     }
 
     const labels =
-        trendData.map(
-            item => item.label
-        );
+        trendData.map(item => item.label);
 
     const scores =
-        trendData.map(
-            item => item.score
-        );
+        trendData.map(item => item.score);
 
     interviewTrendChart = new Chart(canvas, {
-
         type: "line",
-
         data: {
-
             labels: labels,
-
             datasets: [
-
                 {
                     label: "Interview Score",
                     data: scores,
                     tension: 0.3,
                     fill: false
                 }
-
             ]
         },
-
         options: {
-
             responsive: true,
-
             scales: {
-
                 y: {
-
                     beginAtZero: true,
-
                     max: 100
-
                 }
             }
         }
     });
 }
 
+
 function loadRecommendationAnalytics() {
 
-    fetch(
-        "/api/recommendations/analytics/"
-    )
+    fetch("/api/recommendations/analytics/")
         .then(response => response.json())
         .then(data => {
 
             const container =
-                document.getElementById(
-                    "recommendationAnalytics"
-                );
+                document.getElementById("recommendationAnalytics");
 
-            if (
-                !data.success ||
-                data.analytics.total_recommendations === 0
-            ) {
-
+            if (!data.success || data.analytics.total_recommendations === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
                         No recommendation analytics available.
                     </div>
                 `;
-
                 return;
             }
 
-            const analytics =
-                data.analytics;
+            const analytics = data.analytics;
 
             container.innerHTML = `
                 <div class="card">
                     <h3>Total Recommendations</h3>
-                    <p>
-                        ${analytics.total_recommendations}
-                    </p>
+                    <p>${analytics.total_recommendations}</p>
                 </div>
 
                 <div class="card">
                     <h3>Average Match Score</h3>
-                    <p>
-                        ${analytics.average_match_score}%
-                    </p>
+                    <p>${analytics.average_match_score}%</p>
                 </div>
 
                 <div class="card">
                     <h3>Highest Match Score</h3>
-                    <p>
-                        ${analytics.highest_match_score}%
-                    </p>
+                    <p>${analytics.highest_match_score}%</p>
                 </div>
 
                 <div class="card">
                     <h3>Top Opportunity Type</h3>
-                    <p>
-                        ${analytics.top_opportunity_type}
-                    </p>
+                    <p>${analytics.top_opportunity_type}</p>
                 </div>
 
                 <div class="card">
                     <h3>Top Location</h3>
-                    <p>
-                        ${analytics.top_location}
-                    </p>
+                    <p>${analytics.top_location}</p>
                 </div>
-
             `;
+
             renderRecommendationScoreChart(
-            analytics.score_distribution);
+                analytics.score_distribution
+            );
         })
         .catch(error => {
-
             console.error(error);
 
-            document.getElementById(
-                "recommendationAnalytics"
-            ).innerHTML = `
+            document.getElementById("recommendationAnalytics").innerHTML = `
                 <div class="empty-state">
                     Error loading recommendation analytics.
                 </div>
@@ -680,14 +547,9 @@ let recommendationScoreChart = null;
 function renderRecommendationScoreChart(distribution) {
 
     const canvas =
-        document.getElementById(
-            "recommendationScoreChart"
-        );
+        document.getElementById("recommendationScoreChart");
 
-    if (
-        !canvas ||
-        !distribution
-    ) {
+    if (!canvas || !distribution) {
         return;
     }
 
@@ -702,13 +564,9 @@ function renderRecommendationScoreChart(distribution) {
         Object.values(distribution);
 
     recommendationScoreChart = new Chart(canvas, {
-
         type: "bar",
-
         data: {
-
             labels: labels,
-
             datasets: [
                 {
                     label: "Number of Recommendations",
@@ -716,13 +574,9 @@ function renderRecommendationScoreChart(distribution) {
                 }
             ]
         },
-
         options: {
-
             responsive: true,
-
             scales: {
-
                 y: {
                     beginAtZero: true,
                     ticks: {
