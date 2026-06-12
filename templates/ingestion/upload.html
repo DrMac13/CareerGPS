@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Upload Opportunities</title>
+</head>
+
+<body>
+
+    <h1>
+        Upload Opportunities CSV
+    </h1>
+
+    <form
+        method="POST"
+        enctype="multipart/form-data"
+    >
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">
+            Upload
+        </button>
+
+    </form>
+
+    {% if result %}
+
+        <hr>
+
+        <h2>
+            Import Results
+        </h2>
+
+        <p>
+            Imported:
+            {{ result.imported_count }}
+        </p>
+
+        <p>
+            Skipped:
+            {{ result.skipped_count }}
+        </p>
+
+        {% if result.errors %}
+
+            <ul>
+
+            {% for error in result.errors %}
+
+                <li>
+                    {{ error }}
+                </li>
+
+            {% endfor %}
+
+            </ul>
+
+        {% endif %}
+
+    {% endif %}
+
+</body>
+
+</html>

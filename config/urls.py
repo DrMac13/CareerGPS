@@ -12,4 +12,6 @@ urlpatterns = [
     path("api/", include("bookmarks.urls")),
     path("api/", include("opportunities.urls")),
     path("api/", include("interviews.urls")),
+    path("ingestion/",include("ingestion.urls")
+),
 ]
