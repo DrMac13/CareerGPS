@@ -2,6 +2,7 @@ console.log("Dashboard JS loaded");
 
 document.addEventListener("DOMContentLoaded", () => {
     loadRecommendations();
+    loadRecommendationAnalytics();
     loadApplications();
     loadInterviewHistory();
     loadInterviewAnalytics();
@@ -583,6 +584,150 @@ function renderInterviewTrendChart(trendData) {
 
                     max: 100
 
+                }
+            }
+        }
+    });
+}
+
+function loadRecommendationAnalytics() {
+
+    fetch(
+        "/api/recommendations/analytics/"
+    )
+        .then(response => response.json())
+        .then(data => {
+
+            const container =
+                document.getElementById(
+                    "recommendationAnalytics"
+                );
+
+            if (
+                !data.success ||
+                data.analytics.total_recommendations === 0
+            ) {
+
+                container.innerHTML = `
+                    <div class="empty-state">
+                        No recommendation analytics available.
+                    </div>
+                `;
+
+                return;
+            }
+
+            const analytics =
+                data.analytics;
+
+            container.innerHTML = `
+                <div class="card">
+                    <h3>Total Recommendations</h3>
+                    <p>
+                        ${analytics.total_recommendations}
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>Average Match Score</h3>
+                    <p>
+                        ${analytics.average_match_score}%
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>Highest Match Score</h3>
+                    <p>
+                        ${analytics.highest_match_score}%
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>Top Opportunity Type</h3>
+                    <p>
+                        ${analytics.top_opportunity_type}
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>Top Location</h3>
+                    <p>
+                        ${analytics.top_location}
+                    </p>
+                </div>
+
+            `;
+            renderRecommendationScoreChart(
+            analytics.score_distribution);
+        })
+        .catch(error => {
+
+            console.error(error);
+
+            document.getElementById(
+                "recommendationAnalytics"
+            ).innerHTML = `
+                <div class="empty-state">
+                    Error loading recommendation analytics.
+                </div>
+            `;
+        });
+}
+
+
+let recommendationScoreChart = null;
+
+function renderRecommendationScoreChart(distribution) {
+
+    const canvas =
+        document.getElementById(
+            "recommendationScoreChart"
+        );
+
+    if (
+        !canvas ||
+        !distribution
+    ) {
+        return;
+    }
+
+    if (recommendationScoreChart) {
+        recommendationScoreChart.destroy();
+    }
+
+    const labels =
+        Object.keys(distribution);
+
+    const values =
+        Object.values(distribution);
+
+    recommendationScoreChart = new Chart(canvas, {
+
+        type: "bar",
+
+        data: {
+
+            labels: labels,
+
+            datasets: [
+                {
+                    label: "Number of Recommendations",
+                    data: values
+                }
+            ]
+        },
+
+        options: {
+
+            responsive: true,
+
+            scales: {
+
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0
+                    }
                 }
             }
         }

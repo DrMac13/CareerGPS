@@ -1,25 +1,47 @@
 from django.core.management.base import BaseCommand
 
-from ingestion.services.mock_importer import import_mock_jobs
+from ingestion.services.scrapers.investec_scraper import (
+    scrape_investec_jobs
+)
+
+from ingestion.services.feed_importer import (
+    import_feed
+)
 
 
 class Command(BaseCommand):
 
-    help = "Import opportunities into CareerGPS"
+    help = "Import real opportunities into CareerGPS"
 
     def handle(self, *args, **options):
 
-        result = import_mock_jobs()
+        self.stdout.write(
+            "Starting Investec job import..."
+        )
 
-        if result["success"]:
+        try:
+
+            jobs = scrape_investec_jobs()
+
+            result = import_feed(
+                jobs
+            )
+
             self.stdout.write(
                 self.style.SUCCESS(
-                    f"Imported {result['jobs_imported']} jobs successfully."
+                    (
+                        "Investec import complete. "
+                        f"Found: {len(jobs)}, "
+                        f"Imported: {result['imported_count']}, "
+                        f"Skipped: {result['skipped_count']}"
+                    )
                 )
             )
-        else:
+
+        except Exception as e:
+
             self.stdout.write(
                 self.style.ERROR(
-                    result["error"]
+                    f"Import failed: {str(e)}"
                 )
             )

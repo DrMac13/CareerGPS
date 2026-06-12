@@ -170,7 +170,39 @@ def calculate_match_score(user, opportunity):
             "Low match based on current profile data"
         )
 
-    return score, " • ".join(reasons)
+    recommendation_summary = []
+
+    if score >= 80:
+
+        recommendation_summary.append(
+            "Excellent match for your profile"
+        )
+
+    elif score >= 60:
+
+        recommendation_summary.append(
+            "Strong match for your profile"
+        )
+
+    elif score >= 40:
+
+        recommendation_summary.append(
+            "Moderate match for your profile"
+        )
+
+    else:
+
+        recommendation_summary.append(
+            "Potential opportunity worth exploring"
+        )
+
+    recommendation_summary.extend(
+        reasons
+    )
+
+    return score, " • ".join(
+        recommendation_summary
+    )
 
 
 def generate_recommendations_for_user(user):

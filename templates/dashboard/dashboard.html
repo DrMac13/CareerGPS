@@ -9,20 +9,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CareerGPS Dashboard</title>
 
-```
 <link
     rel="stylesheet"
     href="{% static 'css/dashboard.css' %}"
 >
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-```
 
 </head>
 
 <body>
 
-```
 <div class="dashboard-layout">
 
     <!-- SIDEBAR -->
@@ -83,6 +80,33 @@
             <h2 class="section__title">
                 › Recommended Opportunities
             </h2>
+
+            <div
+                id="recommendationAnalytics"
+                class="card-grid"
+            >
+                Loading recommendation analytics...
+            </div>
+
+            <br>
+
+
+            <br>
+
+            <div class="chart-card">
+
+                <h3>
+                    Recommendation Score Distribution
+                </h3>
+
+                <canvas
+                    id="recommendationScoreChart"
+                ></canvas>
+
+            </div>
+
+            <br>
+
 
             <div
                 id="recommendationsList"
@@ -236,7 +260,7 @@
 </div>
 
 <script src="{% static 'js/dashboard.js' %}"></script>
-```
+
 
 </body>
 </html>
