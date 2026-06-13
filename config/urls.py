@@ -2,19 +2,12 @@ from django.contrib import admin
 from django.urls import path, include
 from dashboard.views import (
     dashboard_page,
-    opportunities_page
-)
-from dashboard.views import (
-    dashboard_page,
-    opportunities_page,
-    applications_page
-)
-from dashboard.views import (
-    dashboard_page,
     opportunities_page,
     applications_page,
     interview_history_page,
-    interview_analytics_page
+    interview_analytics_page,
+    profile_page,
+    resources_page
 )
 
 
@@ -43,6 +36,19 @@ urlpatterns = [
         interview_analytics_page,
         name="interview_analytics_page"
     ),
+
+        path(
+        "dashboard/resources/",
+        resources_page,
+        name="resources_page"
+    ),
+
+    path(
+        "dashboard/profile/",
+        profile_page,
+        name="profile_page"
+        ),
+
 
     path("", include("interviews.urls")),
 

@@ -1,0 +1,409 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerGPS Resources</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/dashboard.css' %}"
+    >
+</head>
+
+<body>
+
+<div class="dashboard-layout">
+
+    <aside class="sidebar">
+
+        <div class="sidebar__logo">
+            <span class="logo-orange">Career</span><span class="logo-white">GPS</span>
+        </div>
+
+        <nav class="sidebar__nav">
+
+            <a href="/dashboard/" class="sidebar__link">
+                Dashboard
+            </a>
+
+            <a href="/dashboard/opportunities/" class="sidebar__link">
+                Opportunities
+            </a>
+
+            <a href="/dashboard/applications/" class="sidebar__link">
+                My Applications
+            </a>
+
+            <a href="/dashboard/interviews/history/" class="sidebar__link">
+                Interview History
+            </a>
+
+            <a href="/dashboard/interviews/analytics/" class="sidebar__link">
+                Interview Analytics
+            </a>
+
+            <a href="/dashboard/resources/" class="sidebar__link active">
+                Resources
+            </a>
+
+        </nav>
+
+    </aside>
+
+    <main class="main">
+
+        <div class="dashboard-header">
+
+            <h1>Resources</h1>
+
+            <p>
+                Practical guidance to improve your CV, interviews,
+                applications, and career direction.
+            </p>
+
+        </div>
+
+        <section class="resource-nav-section">
+
+            <div class="resource-nav">
+
+                <a href="#interview-preparation" class="resource-nav__item">
+                    Interview Preparation
+                </a>
+
+                <a href="#cv-linkedin" class="resource-nav__item">
+                    CV & LinkedIn
+                </a>
+
+                <a href="#career-paths" class="resource-nav__item">
+                    Career Paths
+                </a>
+
+                <a href="#application-tips" class="resource-nav__item">
+                    Application Tips
+                </a>
+
+                <a href="#market-skills" class="resource-nav__item">
+                    Market Skills
+                </a>
+
+            </div>
+
+        </section>
+
+        <section
+            id="interview-preparation"
+            class="section"
+        >
+
+            <h2 class="section__title">
+                Interview Preparation
+            </h2>
+
+            <div class="card-grid">
+
+                <div class="card">
+                    <span class="skill-badge matched">
+                        STAR Method
+                    </span>
+
+                    <h3>Answer interview questions clearly</h3>
+
+                    <p>
+                        Use Situation, Task, Action, and Result to structure
+                        behavioural interview answers.
+                    </p>
+
+                    <p>
+                        This is useful for questions about teamwork,
+                        leadership, conflict, and problem solving.
+                    </p>
+
+                    <a href="/interview/">
+                        Practice Interview
+                    </a>
+
+                    <a href="/dashboard/profile/" class="sidebar__link">
+                        Profile
+                    </a>
+                </div>
+
+                <div class="card">
+                    <span class="skill-badge matched">
+                        Technical Prep
+                    </span>
+
+                    <h3>Prepare for role-specific questions</h3>
+
+                    <p>
+                        Review the tools and concepts connected to your target
+                        career path, such as SQL, Python, Power BI, Django,
+                        business analysis, or cloud basics.
+                    </p>
+
+                    <p>
+                        Focus on explaining your thinking, not only giving
+                        short definitions.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <span class="skill-badge matched">
+                        Confidence
+                    </span>
+
+                    <h3>Improve delivery and confidence</h3>
+
+                    <p>
+                        Practise speaking in complete sentences, using examples,
+                        and connecting your answers to the job description.
+                    </p>
+
+                    <p>
+                        Strong answers are specific, structured, and relevant.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+        <section
+            id="cv-linkedin"
+            class="section"
+        >
+
+            <h2 class="section__title">
+                CV & LinkedIn
+            </h2>
+
+            <div class="card-grid">
+
+                <div class="card">
+                    <span class="skill-badge matched">
+                        CV
+                    </span>
+
+                    <h3>Graduate CV structure</h3>
+
+                    <p>
+                        Your CV should include contact details, career summary,
+                        education, projects, work experience, skills, and
+                        achievements.
+                    </p>
+
+                    <p>
+                        Keep it focused on the role you are applying for.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <span class="skill-badge matched">
+                        LinkedIn
+                    </span>
+
+                    <h3>LinkedIn profile checklist</h3>
+
+                    <p>
+                        Use a professional headline, clear summary, updated
+                        education, relevant projects, skills, and a clean
+                        profile photo.
+                    </p>
+
+                    <p>
+                        Your LinkedIn should support the same career direction
+                        as your CV.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <span class="skill-badge matched">
+                        Portfolio
+                    </span>
+
+                    <h3>Show proof of ability</h3>
+
+                    <p>
+                        Add GitHub projects, dashboards, case studies, database
+                        projects, or business analysis documents to show what
+                        you can actually do.
+                    </p>
+
+                    <p>
+                        A portfolio helps employers trust your skills.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+        <section
+            id="career-paths"
+            class="section"
+        >
+
+            <h2 class="section__title">
+                Career Paths
+            </h2>
+
+            <div class="card-grid">
+
+                <div class="card">
+                    <span class="skill-badge matched">
+                        Data Analyst
+                    </span>
+
+                    <h3>Data Analyst roadmap</h3>
+
+                    <p>
+                        Start with Excel, SQL, data cleaning, dashboards,
+                        Power BI, Python, statistics, and business storytelling.
+                    </p>
+
+                    <p>
+                        Build projects that show insight, not just charts.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <span class="skill-badge matched">
+                        Software Engineer
+                    </span>
+
+                    <h3>Software Engineer roadmap</h3>
+
+                    <p>
+                        Build foundations in HTML, CSS, JavaScript, Python,
+                        Django, databases, APIs, Git, and deployment.
+                    </p>
+
+                    <p>
+                        Focus on building complete applications, not isolated
+                        code snippets.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <span class="skill-badge matched">
+                        Business Analyst
+                    </span>
+
+                    <h3>Business Analyst roadmap</h3>
+
+                    <p>
+                        Learn requirements gathering, process modelling,
+                        stakeholder communication, documentation, SQL basics,
+                        and system analysis.
+                    </p>
+
+                    <p>
+                        Strong business analysts connect business needs to
+                        technical solutions.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+        <section
+            id="application-tips"
+            class="section"
+        >
+
+            <h2 class="section__title">
+                Application Success Tips
+            </h2>
+
+            <div class="card-grid">
+
+                <div class="card">
+                    <span class="skill-badge matched">
+                        Tailoring
+                    </span>
+
+                    <h3>Tailor every application</h3>
+
+                    <p>
+                        Match your CV, cover letter, and project examples to
+                        the skills and responsibilities in the job description.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <span class="skill-badge matched">
+                        Tracking
+                    </span>
+
+                    <h3>Track your applications</h3>
+
+                    <p>
+                        Keep record of where you applied, the application date,
+                        company name, role, status, and follow-up actions.
+                    </p>
+
+                    <a href="/dashboard/applications/">
+                        View Applications
+                    </a>
+                </div>
+
+                <div class="card">
+                    <span class="skill-badge matched">
+                        Follow-up
+                    </span>
+
+                    <h3>Follow up professionally</h3>
+
+                    <p>
+                        If you have not heard back after a reasonable period,
+                        send a polite follow-up message asking about the status
+                        of your application.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+        <section
+            id="market-skills"
+            class="section"
+        >
+
+            <h2 class="section__title">
+                Current Market Skills
+            </h2>
+
+            <div class="card">
+
+                <span class="skill-badge missing">
+                    Coming Later
+                </span>
+
+                <h3>Skills employers are requesting most often</h3>
+
+                <p>
+                    This section will later analyse imported opportunities and
+                    show the most common skills across live job sources.
+                </p>
+
+                <p>
+                    Example future insights: SQL, Python, Power BI,
+                    communication, cloud, cybersecurity, and data analysis.
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>

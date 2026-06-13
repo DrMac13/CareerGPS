@@ -112,10 +112,9 @@ function loadRecommendations() {
                         <div class="match-label">
                             ${matchLabel}
                         </div>
-
-                        <div class="match-score">
+                        <span class="match-score ${matchClass}">
                             ${item.match_score}%
-                        </div>
+                        </span>
                     </div>
 
                     <p>

@@ -1,0 +1,147 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerGPS Profile</title>
+
+```
+<link
+    rel="stylesheet"
+    href="{% static 'css/dashboard.css' %}"
+>
+```
+
+</head>
+
+<body>
+
+<div class="dashboard-layout">
+
+```
+<aside class="sidebar">
+
+    <div class="sidebar__logo">
+        <span class="logo-orange">Career</span><span class="logo-white">GPS</span>
+    </div>
+
+    <nav class="sidebar__nav">
+
+        <a href="/dashboard/" class="sidebar__link">
+            Dashboard
+        </a>
+
+        <a href="/dashboard/opportunities/" class="sidebar__link">
+            Opportunities
+        </a>
+
+        <a href="/dashboard/applications/" class="sidebar__link">
+            My Applications
+        </a>
+
+        <a href="/dashboard/interviews/history/" class="sidebar__link">
+            Interview History
+        </a>
+
+        <a href="/dashboard/interviews/analytics/" class="sidebar__link">
+            Interview Analytics
+        </a>
+
+        <a href="/dashboard/resources/" class="sidebar__link">
+            Resources
+        </a>
+
+        <a href="/dashboard/profile/" class="sidebar__link active">
+            Profile
+        </a>
+
+    </nav>
+
+</aside>
+
+<main class="main">
+
+    <div class="dashboard-header">
+
+        <h1>My Profile</h1>
+
+        <p>
+            Manage your skills, interests, education,
+            CV and recommendation preferences.
+        </p>
+
+    </div>
+
+    <section class="section">
+
+        <h2 class="section__title">
+            Profile Completion
+        </h2>
+
+        <div id="profileCompletionCard" class="card">
+            Loading profile...
+        </div>
+
+    </section>
+
+    <section class="section">
+
+        <h2 class="section__title">
+            Personal Information
+        </h2>
+
+        <div id="profileInfo" class="card-grid">
+            Loading profile...
+        </div>
+
+    </section>
+
+    <section class="section">
+
+        <h2 class="section__title">
+            Skills
+        </h2>
+
+        <div id="profileSkills" class="card">
+            Loading skills...
+        </div>
+
+    </section>
+
+    <section class="section">
+
+        <h2 class="section__title">
+            Interests
+        </h2>
+
+        <div id="profileInterests" class="card">
+            Loading interests...
+        </div>
+
+    </section>
+
+    <section class="section">
+
+        <h2 class="section__title">
+            CV Status
+        </h2>
+
+        <div id="profileCV" class="card">
+            Loading CV information...
+        </div>
+
+    </section>
+
+</main>
+```
+
+</div>
+
+<script src="{% static 'js/dashboard.js' %}"></script>
+
+</body>
+</html>

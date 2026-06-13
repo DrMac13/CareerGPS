@@ -30,3 +30,15 @@ def interview_analytics_page(request):
         request,
         "dashboard/interview_analytics.html"
     )
+
+def resources_page(request):
+    return render(
+        request,
+        "dashboard/resources.html"
+    )
+
+def profile_page(request):
+    return render(
+    request,
+    "dashboard/profile.html"
+)
