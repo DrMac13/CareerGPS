@@ -40,28 +40,54 @@ function loadRecommendations() {
                 const matchedSkills = item.matched_skills || [];
                 const missingSkills = item.missing_skills || [];
 
+
                 const matchedSkillsHtml = matchedSkills.length
-                    ? matchedSkills.map(skill => `<span>${skill}</span>`).join(", ")
+                    ? matchedSkills.map(skill =>
+                        `<span class="skill-badge matched">${skill}</span>`
+                    ).join("")
                     : "No matched skills";
 
                 const missingSkillsHtml = missingSkills.length
-                    ? missingSkills.map(skill => `<span>${skill}</span>`).join(", ")
+                    ? missingSkills.map(skill =>
+                        `<span class="skill-badge missing">${skill}</span>`
+                    ).join("")
                     : "No skill gaps identified";
+
 
                 const learningResources =
                     item.learning_resources || [];
+
 
                 const learningResourcesHtml =
                     learningResources.length
                         ? learningResources.map(resource => `
                             <a
+                                class="learning-link"
                                 href="${resource.url}"
                                 target="_blank"
                             >
-                                Learn ${resource.skill}
+                                ${resource.title}
                             </a>
-                        `).join("<br>")
+                        `).join("")
                         : "No learning recommendations";
+
+                
+
+                let matchLabel = "Development Opportunity";
+                let matchClass = "match-low";
+
+                if (item.match_score >= 80) {
+                    matchLabel = "Excellent Match";
+                    matchClass = "match-high";
+                }
+                else if (item.match_score >= 60) {
+                    matchLabel = "Strong Match";
+                    matchClass = "match-medium";
+                }
+                else if (item.match_score >= 40) {
+                    matchLabel = "Moderate Match";
+                    matchClass = "match-average";
+                }
 
 
                 card.innerHTML = `
@@ -82,39 +108,50 @@ function loadRecommendations() {
                         ${item.opportunity_type}
                     </p>
 
-                    <p>
-                        <strong>Match Score:</strong>
-                        ${item.match_score}%
-                    </p>
+                    <div class="match-score-card ${matchClass}">
+                        <div class="match-label">
+                            ${matchLabel}
+                        </div>
+
+                        <div class="match-score">
+                            ${item.match_score}%
+                        </div>
+                    </div>
 
                     <p>
                         <strong>Why:</strong>
                         ${item.reasons}
                     </p>
 
-                    <p>
-                        <strong>Matched Skills:</strong>
-                        ${matchedSkillsHtml}
-                    </p>
+                    <div class="skill-section">
+                        <strong>Matched Skills</strong>
+                        <div class="skill-badges">
+                            ${matchedSkillsHtml}
+                        </div>
+                    </div>
 
-                    <p>
-                        <strong>Skill Gaps:</strong>
-                        ${missingSkillsHtml}
-                    </p>
+                    <div class="skill-section">
+                        <strong>Skill Gaps</strong>
+                        <div class="skill-badges">
+                            ${missingSkillsHtml}
+                        </div>
+                    </div>
 
-                    <p>
-                        <strong>Learning Resources:</strong>
-                    </p>
+                    <div class="learning-resources">
+                        <strong>Learning Resources</strong>
 
-                    <div>
-                        ${learningResourcesHtml}
+                        <div class="learning-buttons">
+                            ${learningResourcesHtml}
+                        </div>
                     </div>
 
                     <button onclick="toggleBookmark(${item.id})">
+
                         Save Job
                     </button>
 
                     <button onclick="applyToOpportunity(${item.id})">
+
                         Track Application
                     </button>
 
@@ -122,6 +159,7 @@ function loadRecommendations() {
                         href="${item.application_url}"
                         target="_blank"
                     >
+                    
                         Apply
                     </a>
                 `;

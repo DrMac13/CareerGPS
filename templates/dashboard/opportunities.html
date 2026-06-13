@@ -5,15 +5,12 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CareerGPS Dashboard</title>
+    <title>CareerGPS Opportunities</title>
 
     <link
         rel="stylesheet"
         href="{% static 'css/dashboard.css' %}"
     >
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -27,27 +24,11 @@
         </div>
 
         <nav class="sidebar__nav">
-
-            <a href="#recommendations" class="sidebar__link active">
-                Recommendations
-            </a>
-
-            <a href="#search" class="sidebar__link">
-                Search Opportunities
-            </a>
-
-            <a href="#applications" class="sidebar__link">
-                My Applications
-            </a>
-
-            <a href="#history" class="sidebar__link">
-                Interview History
-            </a>
-
-            <a href="#analytics" class="sidebar__link">
-                Interview Analytics
-            </a>
-
+            <a href="/dashboard/" class="sidebar__link">Dashboard</a>
+            <a href="/dashboard/opportunities/" class="sidebar__link active">Opportunities</a>
+            <a href="#applications" class="sidebar__link">My Applications</a>
+            <a href="#history" class="sidebar__link">Interview History</a>
+            <a href="#analytics" class="sidebar__link">Interview Analytics</a>
         </nav>
 
     </aside>
@@ -55,17 +36,17 @@
     <main class="main">
 
         <div class="dashboard-header">
-            <h1>CareerGPS Dashboard</h1>
+            <h1>Opportunities</h1>
             <p>
-                Discover opportunities, track applications,
-                and improve your career readiness.
+                Search opportunities, review recommendations,
+                and track roles that match your profile.
             </p>
         </div>
 
-        <section id="recommendations" class="section">
+        <section class="section">
 
             <h2 class="section__title">
-                Recommended Opportunities
+                Recommendation Analytics
             </h2>
 
             <div
@@ -80,6 +61,14 @@
                 <canvas id="recommendationScoreChart"></canvas>
             </div>
 
+        </section>
+
+        <section class="section">
+
+            <h2 class="section__title">
+                Recommended Opportunities
+            </h2>
+
             <div
                 id="recommendationsList"
                 class="card-grid"
@@ -89,7 +78,7 @@
 
         </section>
 
-        <section id="search" class="section">
+        <section class="section">
 
             <h2 class="section__title">
                 Search Opportunities
@@ -130,60 +119,11 @@
 
         </section>
 
-        <section id="applications" class="section">
-
-            <h2 class="section__title">
-                My Applications
-            </h2>
-
-            <div
-                id="applicationsList"
-                class="card-grid"
-            >
-                Loading applications...
-            </div>
-
-        </section>
-
-        <section id="history" class="section">
-
-            <h2 class="section__title">
-                Interview History
-            </h2>
-
-            <div
-                id="interviewHistoryList"
-                class="card-grid"
-            >
-                Loading interview history...
-            </div>
-
-        </section>
-
-        <section id="analytics" class="section">
-
-            <h2 class="section__title">
-                Interview Analytics
-            </h2>
-
-            <div
-                id="interviewAnalytics"
-                class="card-grid"
-            >
-                Loading analytics...
-            </div>
-
-            <div class="chart-card">
-                <h3>Interview Score Trend</h3>
-                <canvas id="interviewTrendChart"></canvas>
-            </div>
-
-        </section>
-
     </main>
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{% static 'js/dashboard.js' %}"></script>
 
 </body>
