@@ -31,55 +31,44 @@ def about_page(request):
         "public/about.html"
     )
 
-
 def dashboard_page(request):
-    return render(request, "dashboard/dashboard.html")
+    return render(request, "dashboard/dashboard.html", {
+        "active_page": "dashboard"
+    })
 
 
 def opportunities_page(request):
-    return render(
-        request,
-        "dashboard/opportunities.html"
-    )
+    return render(request, "dashboard/opportunities.html", {
+        "active_page": "opportunities"
+    })
 
 def applications_page(request):
-    return render(
-        request,
-        "dashboard/applications.html"
-    )
+    return render(request, "dashboard/applications.html", {
+        "active_page": "applications"
+    })
 
 
 def interview_history_page(request):
-    return render(
-        request,
-        "dashboard/interview_history.html"
-    )
+    return render(request, "dashboard/interview_history.html", {
+        "active_page": "interview_history"
+    })
 
 
 def interview_analytics_page(request):
-    return render(
-        request,
-        "dashboard/interview_analytics.html"
-    )
+    return render(request, "dashboard/interview_analytics.html", {
+        "active_page": "interview_analytics"
+    })
 
 def resources_page(request):
-    return render(
-        request,
-        "dashboard/resources.html"
-    )
+    return render(request, "dashboard/resources.html", {
+        "active_page": "resources"
+    })
+
 
 def profile_page(request):
-    return render(
-    request,
-    "dashboard/profile.html"
-)
-
-def profile_page(request):
-    return render(
-        request,
-        "dashboard/profile.html"
-    )
-
+    return render(request, "dashboard/profile.html", {
+        "active_page": "profile"
+    })
 
 def profile_summary_api(request):
 
@@ -165,10 +154,9 @@ def profile_summary_api(request):
     })
 
 def saved_page(request):
-    return render(
-        request,
-        "dashboard/saved.html"
-    )
+    return render(request, "dashboard/saved.html", {
+        "active_page": "saved"
+    })
 
 def stories_page(request):
     return render(
