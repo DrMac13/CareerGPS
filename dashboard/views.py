@@ -7,6 +7,17 @@ from profiles.models import (
     UserInterest
 )
 
+def login_page(request):
+    return render(
+        request,
+        "public/login.html"
+    )
+
+def register_page(request):
+    return render(
+        request,
+        "public/register.html"
+    )
 
 def home_page(request):
     return render(

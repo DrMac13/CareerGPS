@@ -4,8 +4,10 @@ from dashboard.views import (
     home_page,
     about_page,
     dashboard_page,
+    login_page,
     opportunities_page,
     applications_page,
+    register_page,
     saved_page,
     interview_history_page,
     interview_analytics_page,
@@ -20,6 +22,19 @@ from dashboard.views import (
 
 
 urlpatterns = [
+
+    path(
+        "login/",
+        login_page,
+        name="login_page"
+    ),
+
+    path(
+        "register/",
+        register_page,
+        name="register_page"
+    ),
+
     path(
         "",
         home_page,
