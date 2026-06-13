@@ -8,6 +8,19 @@ from profiles.models import (
 )
 
 
+def home_page(request):
+    return render(
+        request,
+        "public/home.html"
+    )
+
+def about_page(request):
+    return render(
+        request,
+        "public/about.html"
+    )
+
+
 def dashboard_page(request):
     return render(request, "dashboard/dashboard.html")
 
@@ -139,3 +152,21 @@ def profile_summary_api(request):
             for item in interests
         ]
     })
+
+def saved_page(request):
+    return render(
+        request,
+        "dashboard/saved.html"
+    )
+
+def stories_page(request):
+    return render(
+        request,
+        "public/stories.html"
+    )
+
+def contact_page(request):
+    return render(
+        request,
+        "public/contact.html"
+    )

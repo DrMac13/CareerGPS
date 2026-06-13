@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     loadApplications();
     loadInterviewHistory();
     loadInterviewAnalytics();
+    loadSavedOpportunities();
 
     const searchBtn = document.getElementById("searchBtn");
 
@@ -647,4 +648,89 @@ function renderRecommendationScoreChart(distribution) {
             }
         }
     });
+}
+
+function loadSavedOpportunities() {
+
+    const container =
+        document.getElementById("savedOpportunitiesList");
+
+    if (!container) {
+        return;
+    }
+
+    fetch("/api/bookmarks/")
+        .then(response => response.json())
+        .then(data => {
+
+            if (
+                !data.success ||
+                data.saved_opportunities.length === 0
+            ) {
+                container.innerHTML =
+                    "<p>No saved opportunities yet.</p>";
+                return;
+            }
+
+            container.innerHTML = "";
+
+            data.saved_opportunities.forEach(item => {
+
+                const card =
+                    document.createElement("div");
+
+                card.classList.add("card");
+
+                card.innerHTML = `
+                    <h3>${item.title}</h3>
+
+                    <p>
+                        <strong>Company:</strong>
+                        ${item.company}
+                    </p>
+
+                    <p>
+                        <strong>Location:</strong>
+                        ${item.location}
+                    </p>
+
+                    <p>
+                        <strong>Type:</strong>
+                        ${item.opportunity_type}
+                    </p>
+
+                    <p>
+                        <strong>Saved:</strong>
+                        ${item.saved_at}
+                    </p>
+
+                    <button onclick="toggleBookmark(${item.id})">
+                        Remove Bookmark
+                    </button>
+
+                    <button onclick="applyToOpportunity(${item.id})">
+                        Track Application
+                    </button>
+
+                    <a
+                        href="${item.application_url}"
+                        target="_blank"
+                    >
+                        Apply
+                    </a>
+                `;
+
+                container.appendChild(card);
+
+            });
+
+        })
+        .catch(error => {
+
+            console.error(error);
+
+            container.innerHTML =
+                "<p>Error loading saved opportunities.</p>";
+
+        });
 }

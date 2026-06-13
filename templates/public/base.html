@@ -1,0 +1,161 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        {% block title %}
+            CareerGPS
+        {% endblock %}
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/public.css' %}"
+    >
+
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header class="site-header">
+
+        <div class="site-header__container">
+
+            <a
+                href="/"
+                class="logo"
+            >
+                <span class="logo-orange">
+                    Career
+                </span>
+
+                <span class="logo-white">
+                    GPS
+                </span>
+            </a>
+
+            <nav class="main-nav">
+
+                <a href="/">
+                    Home
+                </a>
+
+                <a href="/about/">
+                    About
+                </a>
+
+                <a href="/stories/">
+                    Stories
+                </a>
+
+                <a href="/contact/">
+                    Contact
+                </a>
+
+            </nav>
+
+            <div class="header-actions">
+
+                <a
+                    href="/login/"
+                    class="btn-secondary"
+                >
+                    Sign In
+                </a>
+
+                <a
+                    href="/register/"
+                    class="btn-primary"
+                >
+                    Register
+                </a>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <!-- PAGE CONTENT -->
+
+    <main>
+
+        {% block content %}
+        {% endblock %}
+
+    </main>
+
+    <!-- FOOTER -->
+
+    <footer class="site-footer">
+
+        <div class="footer-content">
+
+            <div class="footer-brand">
+
+                <h3>
+                    <span class="logo-orange">
+                        Career
+                    </span>
+
+                    <span style="color:white;">
+                        GPS
+                    </span>
+                </h3>
+
+                <p>
+                    Helping students discover opportunities,
+                    develop skills and launch careers.
+                </p>
+
+            </div>
+
+            <div class="footer-links">
+
+                <a href="/about/">
+                    About
+                </a>
+
+                <a href="/contact/">
+                    Contact
+                </a>
+
+                <a href="/privacy/">
+                    Privacy
+                </a>
+
+                <a href="/terms/">
+                    Terms
+                </a>
+
+                <a href="/disclaimer/">
+                    Disclaimer
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+
+            © 2026 CareerGPS. All rights reserved.
+
+        </div>
+
+    </footer>
+
+</body>
+
+</html>

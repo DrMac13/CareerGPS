@@ -1,0 +1,101 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerGPS Saved Opportunities</title>
+
+<link
+    rel="stylesheet"
+    href="{% static 'css/dashboard.css' %}"
+>
+
+</head>
+
+<body>
+
+<div class="dashboard-layout">
+
+<aside class="sidebar">
+
+    <div class="sidebar__logo">
+        <span class="logo-orange">Career</span><span class="logo-white">GPS</span>
+    </div>
+
+    <nav class="sidebar__nav">
+
+        <a href="/dashboard/" class="sidebar__link">
+            Dashboard
+        </a>
+
+        <a href="/dashboard/opportunities/" class="sidebar__link">
+            Opportunities
+        </a>
+
+        <a href="/dashboard/saved/" class="sidebar__link active">
+            Saved Opportunities
+        </a>
+
+        <a href="/dashboard/applications/" class="sidebar__link">
+            My Applications
+        </a>
+
+        <a href="/dashboard/interviews/history/" class="sidebar__link">
+            Interview History
+        </a>
+
+        <a href="/dashboard/interviews/analytics/" class="sidebar__link">
+            Interview Analytics
+        </a>
+
+        <a href="/dashboard/resources/" class="sidebar__link">
+            Resources
+        </a>
+
+        <a href="/dashboard/profile/" class="sidebar__link">
+            Profile
+        </a>
+
+    </nav>
+
+</aside>
+
+<main class="main">
+
+    <div class="dashboard-header">
+
+        <h1>Saved Opportunities</h1>
+
+        <p>
+            Opportunities you've bookmarked for later review.
+        </p>
+
+    </div>
+
+    <section class="section">
+
+        <h2 class="section__title">
+            Bookmarked Opportunities
+        </h2>
+
+        <div
+            id="savedOpportunitiesList"
+            class="card-grid"
+        >
+            Loading saved opportunities...
+        </div>
+
+    </section>
+
+</main>
+
+</div>
+
+<script src="{% static 'js/dashboard.js' %}"></script>
+
+</body>
+</html>

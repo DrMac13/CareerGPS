@@ -1,19 +1,37 @@
 from django.contrib import admin
 from django.urls import path, include
 from dashboard.views import (
+    home_page,
+    about_page,
     dashboard_page,
     opportunities_page,
     applications_page,
+    saved_page,
     interview_history_page,
     interview_analytics_page,
     resources_page,
     profile_page,
-    profile_summary_api
+    profile_summary_api,
+    stories_page,
+    contact_page,
+    
 )
 
 
 
 urlpatterns = [
+    path(
+        "",
+        home_page,
+        name="home_page"
+    ),
+
+    path(
+        "about/",
+        about_page,
+        name="about_page"
+    ),
+    
     path("admin/", admin.site.urls),
 
     path("", include("accounts.urls")),
@@ -54,6 +72,24 @@ urlpatterns = [
         "api/profile/summary/",
         profile_summary_api,
         name="profile_summary_api"
+    ),
+
+    path(
+        "dashboard/saved/",
+        saved_page,
+        name="saved_page"
+    ),
+
+    path(
+        "stories/",
+        stories_page,
+        name="stories_page"
+    ),
+
+    path(
+        "contact/",
+        contact_page,
+        name="contact_page"
     ),
 
 
