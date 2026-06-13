@@ -12,36 +12,69 @@
         rel="stylesheet"
         href="{% static 'css/dashboard.css' %}"
     >
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
 
 <div class="dashboard-layout">
+
     {% include "dashboard/partials/sidebar.html" %}
 
     <main class="main">
 
-        <div class="dashboard-header">
-            <h1>CareerGPS Dashboard</h1>
-            <p>
-                Track your opportunities, applications,
-                interview progress, and career readiness.
-            </p>
+        <div class="dashboard-header dashboard-header--overview">
+
+            <div>
+                <h1>Dashboard</h1>
+
+                <p>
+                    Your career activity, recommendations and next steps
+                    in one place.
+                </p>
+            </div>
+
+            <div class="dashboard-header-actions">
+
+                <a href="/dashboard/opportunities/" class="page-action-btn">
+                    View Opportunities
+                </a>
+
+                <a href="/dashboard/profile/" class="page-action-btn secondary">
+                    Update Profile
+                </a>
+
+            </div>
+
         </div>
 
         <section class="section">
 
             <h2 class="section__title">
-                Recommendation Summary
+                Overview
             </h2>
 
-            <div
-                id="recommendationAnalytics"
-                class="card-grid"
-            >
-                Loading recommendation analytics...
+            <div class="dashboard-overview-grid">
+
+                <div class="overview-card">
+                    <h3>Recommended</h3>
+                    <p id="overviewRecommendations">Loading...</p>
+                </div>
+
+                <div class="overview-card">
+                    <h3>Saved</h3>
+                    <p id="overviewSaved">Loading...</p>
+                </div>
+
+                <div class="overview-card">
+                    <h3>Applications</h3>
+                    <p id="overviewApplications">Loading...</p>
+                </div>
+
+                <div class="overview-card">
+                    <h3>Profile</h3>
+                    <p id="overviewProfile">Loading...</p>
+                </div>
+
             </div>
 
         </section>
@@ -49,73 +82,86 @@
         <section class="section">
 
             <h2 class="section__title">
-                Latest Recommendations
+                
             </h2>
+
+            <div class="career-snapshot-card">
+
+                <div class="snapshot-item">
+                    <span class="snapshot-label">Profile Completion</span>
+                    <span id="snapshotCompletion" class="snapshot-value">--</span>
+                </div>
+
+                <div class="snapshot-item">
+                    <span class="snapshot-label">Strong Matches</span>
+                    <span id="snapshotStrongMatches" class="snapshot-value success">--</span>
+                </div>
+
+                <div class="snapshot-item">
+                    <span class="snapshot-label">Saved Opportunities</span>
+                    <span id="snapshotSaved" class="snapshot-value">--</span>
+                </div>
+
+                <div class="snapshot-item">
+                    <span class="snapshot-label">Next Step</span>
+                    <span id="snapshotNextStep" class="snapshot-action">Loading...</span>
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="section">
+
+            <div class="section-header-row">
+
+                <h2 class="section__title">
+                    Latest Recommendations
+                </h2>
+
+                <a href="/dashboard/opportunities/" class="section-link">
+                    View all
+                </a>
+
+            </div>
 
             <div
                 id="recommendationsList"
-                class="card-grid"
+                class="card-grid compact-recommendations"
             >
-                Loading recommendations...
+                Loading latest recommendations...
             </div>
 
         </section>
 
-        <section
-            id="applications"
-            class="section"
-        >
+        <section class="section">
 
             <h2 class="section__title">
-                My Applications
+                Quick Actions
             </h2>
 
-            <div
-                id="applicationsList"
-                class="card-grid"
-            >
-                Loading applications...
-            </div>
+            <div class="quick-actions-grid">
 
-        </section>
+                <a href="/dashboard/opportunities/" class="quick-action-card">
+                    <h3>Find Opportunities</h3>
+                    <p>Search jobs, internships and graduate programmes.</p>
+                </a>
 
-        <section
-            id="history"
-            class="section"
-        >
+                <a href="/dashboard/saved/" class="quick-action-card">
+                    <h3>Review Saved Roles</h3>
+                    <p>Go back to opportunities you bookmarked.</p>
+                </a>
 
-            <h2 class="section__title">
-                Interview History
-            </h2>
+                <a href="/interview/" class="quick-action-card">
+                    <h3>Practice Interview</h3>
+                    <p>Improve your interview readiness.</p>
+                </a>
 
-            <div
-                id="interviewHistoryList"
-                class="card-grid"
-            >
-                Loading interview history...
-            </div>
+                <a href="/dashboard/resources/" class="quick-action-card">
+                    <h3>Use Resources</h3>
+                    <p>Review CV, interview and career guidance.</p>
+                </a>
 
-        </section>
-
-        <section
-            id="analytics"
-            class="section"
-        >
-
-            <h2 class="section__title">
-                Interview Analytics
-            </h2>
-
-            <div
-                id="interviewAnalytics"
-                class="card-grid"
-            >
-                Loading analytics...
-            </div>
-
-            <div class="chart-card">
-                <h3>Interview Score Trend</h3>
-                <canvas id="interviewTrendChart"></canvas>
             </div>
 
         </section>

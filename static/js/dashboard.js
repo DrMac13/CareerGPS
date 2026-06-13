@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     loadInterviewHistory();
     loadInterviewAnalytics();
     loadSavedOpportunities();
+    loadDashboardOverview();
 
     const searchBtn = document.getElementById("searchBtn");
 
@@ -14,7 +15,6 @@ document.addEventListener("DOMContentLoaded", () => {
         searchBtn.addEventListener("click", loadOpportunities);
     }
 });
-
 
 function loadRecommendations() {
 
@@ -25,6 +25,10 @@ function loadRecommendations() {
             const container =
                 document.getElementById("recommendationsList");
 
+            if (!container) {
+                return;
+            }
+
             if (!data.success || data.recommendations.length === 0) {
                 container.innerHTML =
                     "<p>No recommendations found.</p>";
@@ -33,31 +37,43 @@ function loadRecommendations() {
 
             container.innerHTML = "";
 
-            data.recommendations.forEach(item => {
+            const isDashboard =
+                window.location.pathname === "/dashboard/";
 
-                const card = document.createElement("div");
+            const recommendationsToShow =
+                isDashboard
+                    ? data.recommendations.slice(0, 3)
+                    : data.recommendations;
+
+            recommendationsToShow.forEach(item => {
+
+                const card =
+                    document.createElement("div");
+
                 card.classList.add("card");
 
-                const matchedSkills = item.matched_skills || [];
-                const missingSkills = item.missing_skills || [];
+                const matchedSkills =
+                    item.matched_skills || [];
 
+                const missingSkills =
+                    item.missing_skills || [];
 
-                const matchedSkillsHtml = matchedSkills.length
-                    ? matchedSkills.map(skill =>
-                        `<span class="skill-badge matched">${skill}</span>`
-                    ).join("")
-                    : "No matched skills";
+                const matchedSkillsHtml =
+                    matchedSkills.length
+                        ? matchedSkills.map(skill =>
+                            `<span class="skill-badge matched">${skill}</span>`
+                        ).join("")
+                        : "No matched skills";
 
-                const missingSkillsHtml = missingSkills.length
-                    ? missingSkills.map(skill =>
-                        `<span class="skill-badge missing">${skill}</span>`
-                    ).join("")
-                    : "No skill gaps identified";
-
+                const missingSkillsHtml =
+                    missingSkills.length
+                        ? missingSkills.map(skill =>
+                            `<span class="skill-badge missing">${skill}</span>`
+                        ).join("")
+                        : "No skill gaps identified";
 
                 const learningResources =
                     item.learning_resources || [];
-
 
                 const learningResourcesHtml =
                     learningResources.length
@@ -72,26 +88,41 @@ function loadRecommendations() {
                         `).join("")
                         : "No learning recommendations";
 
-                
+                let matchLabel =
+                    "Low Match";
 
-                let matchLabel = "Development Opportunity";
-                let matchClass = "match-low";
+                let matchClass =
+                    "match-low";
 
-                if (item.match_score >= 80) {
-                    matchLabel = "Excellent Match";
-                    matchClass = "match-high";
-                }
-                else if (item.match_score >= 60) {
-                    matchLabel = "Strong Match";
-                    matchClass = "match-medium";
+                if (item.match_score >= 70) {
+                    matchLabel =
+                        "Strong Match";
+
+                    matchClass =
+                        "match-high";
                 }
                 else if (item.match_score >= 40) {
-                    matchLabel = "Moderate Match";
-                    matchClass = "match-average";
+                    matchLabel =
+                        "Moderate Match";
+
+                    matchClass =
+                        "match-medium";
                 }
 
-
                 card.innerHTML = `
+                    <div class="match-row">
+
+                        <span class="match-tag ${matchClass.replace("match-", "")}">
+                            <span class="match-dot"></span>
+                            ${matchLabel}
+                        </span>
+
+                        <span class="match-score ${matchClass}">
+                            ${item.match_score}%
+                        </span>
+
+                    </div>
+
                     <h3>${item.title}</h3>
 
                     <p>
@@ -109,15 +140,6 @@ function loadRecommendations() {
                         ${item.opportunity_type}
                     </p>
 
-                    <div class="match-score-card ${matchClass}">
-                        <div class="match-label">
-                            ${matchLabel}
-                        </div>
-                        <span class="match-score ${matchClass}">
-                            ${item.match_score}%
-                        </span>
-                    </div>
-
                     <p>
                         <strong>Why:</strong>
                         ${item.reasons}
@@ -125,6 +147,7 @@ function loadRecommendations() {
 
                     <div class="skill-section">
                         <strong>Matched Skills</strong>
+
                         <div class="skill-badges">
                             ${matchedSkillsHtml}
                         </div>
@@ -132,6 +155,7 @@ function loadRecommendations() {
 
                     <div class="skill-section">
                         <strong>Skill Gaps</strong>
+
                         <div class="skill-badges">
                             ${missingSkillsHtml}
                         </div>
@@ -140,18 +164,16 @@ function loadRecommendations() {
                     <div class="learning-resources">
                         <strong>Learning Resources</strong>
 
-                        <div class="learning-buttons">
+                        <div class="learning-list">
                             ${learningResourcesHtml}
                         </div>
                     </div>
 
                     <button onclick="toggleBookmark(${item.id})">
-
                         Save Job
                     </button>
 
                     <button onclick="applyToOpportunity(${item.id})">
-
                         Track Application
                     </button>
 
@@ -159,20 +181,27 @@ function loadRecommendations() {
                         href="${item.application_url}"
                         target="_blank"
                     >
-                    
                         Apply
                     </a>
                 `;
 
                 container.appendChild(card);
+
             });
 
         })
         .catch(error => {
+
             console.error(error);
 
-            document.getElementById("recommendationsList").innerHTML =
-                "<p>Error loading recommendations.</p>";
+            const container =
+                document.getElementById("recommendationsList");
+
+            if (container) {
+                container.innerHTML =
+                    "<p>Error loading recommendations.</p>";
+            }
+
         });
 }
 
@@ -733,4 +762,113 @@ function loadSavedOpportunities() {
                 "<p>Error loading saved opportunities.</p>";
 
         });
+}
+
+function loadDashboardOverview() {
+
+    const recommendations =
+        document.getElementById("overviewRecommendations");
+
+    const saved =
+        document.getElementById("overviewSaved");
+
+    const applications =
+        document.getElementById("overviewApplications");
+
+    const profile =
+        document.getElementById("overviewProfile");
+
+    if (!recommendations || !saved || !applications || !profile) {
+        return;
+    }
+
+    fetch("/api/recommendations/analytics/")
+        .then(response => response.json())
+        .then(data => {
+            recommendations.textContent =
+                data.success
+                    ? data.analytics.total_recommendations
+                    : "0";
+        });
+
+    fetch("/api/bookmarks/")
+        .then(response => response.json())
+        .then(data => {
+
+            const count =
+                data.success
+                    ? data.saved_opportunities.length
+                    : 0;
+
+            saved.textContent = count;
+
+            const snapshotSaved =
+                document.getElementById("snapshotSaved");
+
+            if (snapshotSaved) {
+                snapshotSaved.textContent = count;
+            }
+
+        });
+
+    fetch("/api/applications/")
+        .then(response => response.json())
+        .then(data => {
+            applications.textContent =
+                data.success
+                    ? data.applications.length
+                    : "0";
+        });
+    fetch("/api/profile/summary/")
+        .then(response => response.json())
+        .then(data => {
+
+            if (!data.success) {
+                profile.textContent = "0%";
+                return;
+            }
+
+            profile.textContent =
+                `${data.completion}%`;
+
+            const snapshotCompletion =
+                document.getElementById("snapshotCompletion");
+
+            const snapshotNextStep =
+                document.getElementById("snapshotNextStep");
+
+            if (snapshotCompletion) {
+                snapshotCompletion.textContent =
+                    `${data.completion}%`;
+            }
+
+            if (snapshotNextStep) {
+
+                if (data.completion < 70) {
+
+                    snapshotNextStep.textContent =
+                        "Complete your profile";
+
+                } else {
+
+                    snapshotNextStep.textContent =
+                        "Explore opportunities";
+
+                }
+
+            }
+
+        });
+
+    const snapshotCompletion =
+    document.getElementById("snapshotCompletion");
+
+    const snapshotSaved =
+        document.getElementById("snapshotSaved");
+
+    const snapshotStrongMatches =
+        document.getElementById("snapshotStrongMatches");
+
+    const snapshotNextStep =
+        document.getElementById("snapshotNextStep");
 }

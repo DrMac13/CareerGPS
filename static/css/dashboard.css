@@ -404,3 +404,71 @@ select:focus {
     background: #E8651A;
     border-radius: 999px;
 }
+
+.dashboard-overview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+}
+
+.overview-card {
+    background: #FFFFFF;
+    border: 1px solid #E5E5E5;
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.overview-card h3 {
+    color: #555555;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.overview-card p {
+    color: #E8651A;
+    font-size: 34px;
+    font-weight: 800;
+}
+
+
+.career-snapshot-card {
+    background: #FFFFFF;
+    border-radius: 18px;
+    padding: 28px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    border: 1px solid #EAEAEA;
+}
+
+.snapshot-item {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.snapshot-label {
+    color: #666666;
+    font-size: 14px;
+}
+
+.snapshot-value {
+    font-size: 28px;
+    font-weight: 800;
+    color: #1A1A2E;
+}
+
+.snapshot-value.success {
+    color: #27AE60;
+}
+
+.snapshot-action {
+    color: #E8651A;
+    font-weight: 700;
+}
+
+@media (max-width: 900px) {
+    .career-snapshot-card {
+        grid-template-columns: 1fr;
+    }
+}

@@ -27,134 +27,147 @@
 
 <body>
 
-    <!-- HEADER -->
+<header class="site-header">
 
-    <header class="site-header">
+    <div class="site-header__container">
 
-        <div class="site-header__container">
+        <a href="/" class="logo">
+            <span class="logo-orange">Career</span><span class="logo-white">GPS</span>
+        </a>
 
-            <a
-                href="/"
-                class="logo"
-            >
-                <span class="logo-orange">
-                    Career
-                </span>
+        <nav class="main-nav">
 
-                <span class="logo-white">
-                    GPS
-                </span>
+            <a href="/">
+                Home
             </a>
 
-            <nav class="main-nav">
+            <a href="/about/">
+                About
+            </a>
 
-                <a href="/">
-                    Home
-                </a>
+            <a href="/stories/">
+                Stories
+            </a>
 
-                <a href="/about/">
-                    About
-                </a>
+            <a href="/contact/">
+                Contact
+            </a>
 
-                <a href="/stories/">
-                    Stories
-                </a>
+        </nav>
 
-                <a href="/contact/">
-                    Contact
-                </a>
+        <div class="header-actions">
 
-            </nav>
+            <a href="/login/" class="btn-secondary">
+                Sign In
+            </a>
 
-            <div class="header-actions">
-
-                <a
-                    href="/login/"
-                    class="btn-secondary"
-                >
-                    Sign In
-                </a>
-
-                <a
-                    href="/register/"
-                    class="btn-primary"
-                >
-                    Register
-                </a>
-
-            </div>
+            <a href="/register/" class="btn-primary">
+                Get Started
+            </a>
 
         </div>
 
-    </header>
+    </div>
 
-    <!-- PAGE CONTENT -->
+</header>
 
-    <main>
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
 
-        {% block content %}
-        {% endblock %}
+<footer class="site-footer">
 
-    </main>
+    <div class="footer-content">
 
-    <!-- FOOTER -->
+        <div class="footer-column footer-brand">
 
-    <footer class="site-footer">
+            <h3>
+                <span class="logo-orange">Career</span><span class="logo-white">GPS</span>
+            </h3>
 
-        <div class="footer-content">
-
-            <div class="footer-brand">
-
-                <h3>
-                    <span class="logo-orange">
-                        Career
-                    </span>
-
-                    <span class="logo-white">
-                        GPS
-                    </span>
-                </h3>
-
-                <p>
-                    Helping students discover opportunities,
-                    develop skills and launch careers.
-                </p>
-
-            </div>
-
-            <div class="footer-links">
-
-                <a href="/about/">
-                    About
-                </a>
-
-                <a href="/contact/">
-                    Contact
-                </a>
-
-                <a href="/privacy/">
-                    Privacy
-                </a>
-
-                <a href="/terms/">
-                    Terms
-                </a>
-
-                <a href="/disclaimer/">
-                    Disclaimer
-                </a>
-
-            </div>
+            <p>
+                Helping students discover opportunities, close skill gaps,
+                prepare for interviews and manage their career journey.
+            </p>
 
         </div>
 
-        <div class="footer-bottom">
+        <div class="footer-column">
 
+            <h4>
+                Platform
+            </h4>
+
+            <a href="/dashboard/">
+                Dashboard
+            </a>
+
+            <a href="/dashboard/opportunities/">
+                Opportunities
+            </a>
+
+            <a href="/dashboard/resources/">
+                Resources
+            </a>
+
+            <a href="/interview/">
+                Interview Practice
+            </a>
+
+        </div>
+
+        <div class="footer-column">
+
+            <h4>
+                Company
+            </h4>
+
+            <a href="/about/">
+                About
+            </a>
+
+            <a href="/stories/">
+                Stories
+            </a>
+
+            <a href="/contact/">
+                Contact
+            </a>
+
+        </div>
+
+        <div class="footer-column">
+
+            <h4>
+                Legal
+            </h4>
+
+            <a href="/privacy/">
+                Privacy Policy
+            </a>
+
+            <a href="/terms/">
+                Terms of Service
+            </a>
+
+            <a href="/disclaimer/">
+                Disclaimer
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+
+        <p>
             © 2026 CareerGPS. All rights reserved.
+        </p>
 
-        </div>
+    </div>
 
-    </footer>
+</footer>
 
 </body>
 
