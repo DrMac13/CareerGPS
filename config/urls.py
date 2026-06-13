@@ -6,8 +6,9 @@ from dashboard.views import (
     applications_page,
     interview_history_page,
     interview_analytics_page,
+    resources_page,
     profile_page,
-    resources_page
+    profile_summary_api
 )
 
 
@@ -47,7 +48,13 @@ urlpatterns = [
         "dashboard/profile/",
         profile_page,
         name="profile_page"
-        ),
+    ),
+
+    path(
+        "api/profile/summary/",
+        profile_summary_api,
+        name="profile_summary_api"
+    ),
 
 
     path("", include("interviews.urls")),
