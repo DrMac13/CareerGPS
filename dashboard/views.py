@@ -10,3 +10,23 @@ def opportunities_page(request):
         request,
         "dashboard/opportunities.html"
     )
+
+def applications_page(request):
+    return render(
+        request,
+        "dashboard/applications.html"
+    )
+
+
+def interview_history_page(request):
+    return render(
+        request,
+        "dashboard/interview_history.html"
+    )
+
+
+def interview_analytics_page(request):
+    return render(
+        request,
+        "dashboard/interview_analytics.html"
+    )

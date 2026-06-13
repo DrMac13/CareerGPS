@@ -28,12 +28,12 @@
 
         <nav class="sidebar__nav">
 
-            <a href="#recommendations" class="sidebar__link active">
-                Recommendations
+            <a href="/dashboard/" class="sidebar__link active">
+                Dashboard
             </a>
 
-            <a href="#search" class="sidebar__link">
-                Search Opportunities
+            <a href="/dashboard/opportunities/" class="sidebar__link">
+                Opportunities
             </a>
 
             <a href="#applications" class="sidebar__link">
@@ -57,15 +57,15 @@
         <div class="dashboard-header">
             <h1>CareerGPS Dashboard</h1>
             <p>
-                Discover opportunities, track applications,
-                and improve your career readiness.
+                Track your opportunities, applications,
+                interview progress, and career readiness.
             </p>
         </div>
 
-        <section id="recommendations" class="section">
+        <section class="section">
 
             <h2 class="section__title">
-                Recommended Opportunities
+                Recommendation Summary
             </h2>
 
             <div
@@ -75,10 +75,13 @@
                 Loading recommendation analytics...
             </div>
 
-            <div class="chart-card">
-                <h3>Recommendation Score Distribution</h3>
-                <canvas id="recommendationScoreChart"></canvas>
-            </div>
+        </section>
+
+        <section class="section">
+
+            <h2 class="section__title">
+                Latest Recommendations
+            </h2>
 
             <div
                 id="recommendationsList"
@@ -89,48 +92,10 @@
 
         </section>
 
-        <section id="search" class="section">
-
-            <h2 class="section__title">
-                Search Opportunities
-            </h2>
-
-            <div class="search-panel">
-
-                <div class="search-controls">
-
-                    <input
-                        type="text"
-                        id="searchInput"
-                        placeholder="Search jobs..."
-                    >
-
-                    <select id="typeFilter">
-                        <option value="">All Types</option>
-                        <option value="Internship">Internship</option>
-                        <option value="Job">Job</option>
-                        <option value="Graduate Programme">Graduate Programme</option>
-                        <option value="Learnership">Learnership</option>
-                        <option value="Scholarship">Scholarship</option>
-                        <option value="Bursary">Bursary</option>
-                    </select>
-
-                    <button id="searchBtn">
-                        Search
-                    </button>
-
-                </div>
-
-            </div>
-
-            <div
-                id="opportunityResults"
-                class="card-grid"
-            ></div>
-
-        </section>
-
-        <section id="applications" class="section">
+        <section
+            id="applications"
+            class="section"
+        >
 
             <h2 class="section__title">
                 My Applications
@@ -145,7 +110,10 @@
 
         </section>
 
-        <section id="history" class="section">
+        <section
+            id="history"
+            class="section"
+        >
 
             <h2 class="section__title">
                 Interview History
@@ -160,7 +128,10 @@
 
         </section>
 
-        <section id="analytics" class="section">
+        <section
+            id="analytics"
+            class="section"
+        >
 
             <h2 class="section__title">
                 Interview Analytics
