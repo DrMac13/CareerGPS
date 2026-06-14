@@ -16,6 +16,7 @@ from dashboard.views import (
     profile_summary_api,
     stories_page,
     contact_page,
+    verify_email_page
     
 )
 
@@ -107,8 +108,15 @@ urlpatterns = [
         name="contact_page"
     ),
 
+    path(
+        "verify-email/",
+        verify_email_page,
+        name="verify_email_page"
+    ),
+
 
     path("", include("interviews.urls")),
+    path("api/", include("analytics.urls")),
 
     path("api/", include("recommendations.urls")),
     path("api/", include("bookmarks.urls")),

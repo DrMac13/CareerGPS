@@ -169,3 +169,9 @@ def contact_page(request):
         request,
         "public/contact.html"
     )
+
+def verify_email_page(request):
+    return render(
+        request,
+        "public/verify_email.html"
+    )

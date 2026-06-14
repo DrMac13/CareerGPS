@@ -22,18 +22,24 @@
 
     <main class="main">
 
-        <div class="dashboard-header dashboard-header--overview">
+    <section class="welcome-banner">
 
-            <div>
-                <h1>Dashboard</h1>
+        <div class="welcome-banner__content">
 
-                <p>
-                    Your career activity, recommendations and next steps
-                    in one place.
-                </p>
-            </div>
+            <span class="welcome-banner__eyebrow">
+                CareerGPS Dashboard
+            </span>
 
-            <div class="dashboard-header-actions">
+            <h1>
+                Welcome back
+            </h1>
+
+            <p>
+                Review your career activity, check your strongest opportunities
+                and take the next step toward your career goals.
+            </p>
+
+            <div class="welcome-banner__actions">
 
                 <a href="/dashboard/opportunities/" class="page-action-btn">
                     View Opportunities
@@ -47,6 +53,9 @@
 
         </div>
 
+    </section>
+
+
         <section class="section">
 
             <h2 class="section__title">
@@ -56,25 +65,39 @@
             <div class="dashboard-overview-grid">
 
                 <div class="overview-card">
-                    <h3>Recommended</h3>
                     <p id="overviewRecommendations">Loading...</p>
+                    <h3>Recommended Opportunities</h3>
                 </div>
 
                 <div class="overview-card">
-                    <h3>Saved</h3>
                     <p id="overviewSaved">Loading...</p>
+                    <h3>Saved Opportunities</h3>
                 </div>
 
                 <div class="overview-card">
-                    <h3>Applications</h3>
                     <p id="overviewApplications">Loading...</p>
+                    <h3>Applications Tracked</h3>
                 </div>
 
                 <div class="overview-card">
-                    <h3>Profile</h3>
                     <p id="overviewProfile">Loading...</p>
+                    <h3>Profile Completion</h3>
                 </div>
+            </div>
 
+        </section>
+
+        <section class="section">
+
+            <h2 class="section__title">
+                Career Readiness
+            </h2>
+
+            <div
+                id="dashboardCareerReadiness"
+                class="career-readiness-dashboard-card"
+            >
+                Loading career readiness...
             </div>
 
         </section>

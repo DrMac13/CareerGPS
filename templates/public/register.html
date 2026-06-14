@@ -158,7 +158,7 @@ Register | CareerGPS
                         "auth-message success";
 
                     setTimeout(() => {
-                        window.location.href = "/login/";
+                        window.location.href = `/verify-email/?email=${encodeURIComponent(email)}`;
                     }, 1000);
 
                 }

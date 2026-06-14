@@ -52,6 +52,10 @@
                     Application Tips
                 </a>
 
+                <a href="#career-readiness" class="resource-nav__item">
+                    Career Readiness
+                </a>
+
                 <a href="#market-skills" class="resource-nav__item">
                     Market Skills
                 </a>
@@ -339,6 +343,25 @@
         </section>
 
         <section
+            id="career-readiness"
+            class="section"
+        >
+
+            <h2 class="section__title">
+                Career Readiness Intelligence
+            </h2>
+
+            <div
+                id="careerReadinessCard"
+                class="card"
+            >
+                Loading career readiness intelligence...
+            </div>
+
+        </section>
+
+
+        <section
             id="market-skills"
             class="section"
         >
@@ -347,24 +370,11 @@
                 Current Market Skills
             </h2>
 
-            <div class="card">
-
-                <span class="skill-badge missing">
-                    Coming Later
-                </span>
-
-                <h3>Skills employers are requesting most often</h3>
-
-                <p>
-                    This section will later analyse imported opportunities and
-                    show the most common skills across live job sources.
-                </p>
-
-                <p>
-                    Example future insights: SQL, Python, Power BI,
-                    communication, cloud, cybersecurity, and data analysis.
-                </p>
-
+            <div
+                id="marketSkillsList"
+                class="card"
+            >
+                Loading current market skills...
             </div>
 
         </section>
@@ -372,6 +382,8 @@
     </main>
 
 </div>
+
+<script src="{% static 'js/dashboard.js' %}"></script>
 
 </body>
 </html>

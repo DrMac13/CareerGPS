@@ -54,9 +54,6 @@ def evaluate_response(role, question, response_text):
 
     response_lower = response_text.lower()
 
-    # ==========================
-    # LENGTH SCORE (30)
-    # ==========================
 
     word_count = len(response_text.split())
 
@@ -77,9 +74,9 @@ def evaluate_response(role, question, response_text):
             "Provide more detail"
         )
 
-    # ==========================
+       
     # KEYWORD SCORE (30)
-    # ==========================
+     
 
     keywords = ROLE_KEYWORDS.get(role, [])
 
@@ -109,9 +106,9 @@ def evaluate_response(role, question, response_text):
             "Include more role-specific terminology"
         )
 
-    # ==========================
+     
     # STRUCTURE SCORE (20)
-    # ==========================
+     
 
     sentences = re.split(
         r"[.!?]+",
@@ -141,9 +138,8 @@ def evaluate_response(role, question, response_text):
             "Use complete sentences"
         )
 
-    # ==========================
     # STAR SCORE (20)
-    # ==========================
+    
 
     star_keywords = [
         "situation",

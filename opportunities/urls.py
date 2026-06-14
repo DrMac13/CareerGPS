@@ -15,4 +15,16 @@ urlpatterns = [
         views.my_applications,
         name="my_applications"
     ),
+
+    path(
+        "applications/update-status/",
+        views.update_application_status,
+        name="update_application_status"
+    ),
+
+    path(
+        "market-skills/",
+        views.market_skills_analytics,
+        name="market_skills_analytics"
+    ),
 ]

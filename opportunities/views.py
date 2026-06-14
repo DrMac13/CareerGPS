@@ -6,6 +6,8 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import Opportunity, Application
+from django.db.models import Count
+from opportunities.models import OpportunitySkill
 
 
 def opportunity_list(request):
@@ -147,6 +149,7 @@ def my_applications(request):
             "company": opp.company.name,
             "location": opp.location,
             "status": app.status,
+            "notes": app.notes,
             "applied_at": app.applied_at.strftime("%Y-%m-%d %H:%M"),
             "application_url": opp.application_url,
         })
@@ -155,3 +158,104 @@ def my_applications(request):
         "success": True,
         "applications": data
     })
+
+
+@csrf_exempt
+def update_application_status(request):
+
+    if not request.user.is_authenticated:
+        return JsonResponse(
+            {"success": False, "error": "Authentication required"},
+            status=401
+        )
+
+    if request.method != "POST":
+        return JsonResponse(
+            {"success": False, "error": "Invalid request"},
+            status=400
+        )
+
+    try:
+        data = json.loads(request.body)
+
+        application_id = data.get("application_id")
+        status = data.get("status")
+        notes = data.get("notes", "")
+
+        valid_statuses = [
+            choice[0]
+            for choice in Application.STATUS_CHOICES
+        ]
+
+        if status not in valid_statuses:
+            return JsonResponse(
+                {
+                    "success": False,
+                    "error": "Invalid application status"
+                },
+                status=400
+            )
+
+        application = Application.objects.get(
+            id=application_id,
+            user=request.user
+        )
+
+        application.status = status
+
+        if notes:
+            application.notes = notes
+
+        application.save()
+
+        return JsonResponse({
+            "success": True,
+            "message": "Application status updated",
+            "application": {
+                "id": application.id,
+                "status": application.status,
+                "notes": application.notes
+            }
+        })
+
+    except Application.DoesNotExist:
+        return JsonResponse(
+            {"success": False, "error": "Application not found"},
+            status=404
+        )
+
+    except Exception as e:
+        return JsonResponse(
+            {"success": False, "error": str(e)},
+            status=500
+        )
+    
+
+def market_skills_analytics(request):
+
+        top_skills = (
+            OpportunitySkill.objects
+            .values(
+                "skill__name",
+                "skill__category"
+            )
+            .annotate(
+                demand_count=Count("id")
+            )
+            .order_by(
+                "-demand_count",
+                "skill__name"
+            )[:10]
+        )
+
+        return JsonResponse({
+            "success": True,
+            "skills": [
+                {
+                    "name": item["skill__name"],
+                    "category": item["skill__category"],
+                    "demand_count": item["demand_count"]
+                }
+                for item in top_skills
+            ]
+        })

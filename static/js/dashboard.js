@@ -8,6 +8,9 @@ document.addEventListener("DOMContentLoaded", () => {
     loadInterviewAnalytics();
     loadSavedOpportunities();
     loadDashboardOverview();
+    loadMarketSkills();
+    loadCareerReadiness();
+    loadDashboardCareerReadiness();
 
     const searchBtn = document.getElementById("searchBtn");
 
@@ -145,29 +148,34 @@ function loadRecommendations() {
                         ${item.reasons}
                     </p>
 
-                    <div class="skill-section">
-                        <strong>Matched Skills</strong>
+                    
+                    ${!isDashboard ? `
 
-                        <div class="skill-badges">
-                            ${matchedSkillsHtml}
+                        <div class="skill-section">
+                            <strong>Matched Skills</strong>
+
+                            <div class="skill-badges">
+                                ${matchedSkillsHtml}
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="skill-section">
-                        <strong>Skill Gaps</strong>
+                        <div class="skill-section">
+                            <strong>Skill Gaps</strong>
 
-                        <div class="skill-badges">
-                            ${missingSkillsHtml}
+                            <div class="skill-badges">
+                                ${missingSkillsHtml}
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="learning-resources">
-                        <strong>Learning Resources</strong>
+                        <div class="learning-resources">
+                            <strong>Learning Resources</strong>
 
-                        <div class="learning-list">
-                            ${learningResourcesHtml}
+                            <div class="learning-list">
+                                ${learningResourcesHtml}
+                            </div>
                         </div>
-                    </div>
+
+                    ` : ""}
 
                     <button onclick="toggleBookmark(${item.id})">
                         Save Job
@@ -340,6 +348,10 @@ function loadApplications() {
             const container =
                 document.getElementById("applicationsList");
 
+            if (!container) {
+                return;
+            }
+
             if (!data.success || data.applications.length === 0) {
                 container.innerHTML =
                     "<p>No applications yet.</p>";
@@ -350,7 +362,9 @@ function loadApplications() {
 
             data.applications.forEach(app => {
 
-                const card = document.createElement("div");
+                const card =
+                    document.createElement("div");
+
                 card.classList.add("card");
 
                 card.innerHTML = `
@@ -367,32 +381,116 @@ function loadApplications() {
                     </p>
 
                     <p>
-                        <strong>Status:</strong>
-                        ${app.status}
-                    </p>
-
-                    <p>
                         <strong>Applied:</strong>
                         ${app.applied_at}
                     </p>
+
+                    <div class="application-status-block">
+
+                        <label>
+                            Status
+                        </label>
+
+                        <select
+                            id="status-${app.id}"
+                            class="application-status-select"
+                        >
+                            <option value="Applied" ${app.status === "Applied" ? "selected" : ""}>Applied</option>
+                            <option value="Interviewing" ${app.status === "Interviewing" ? "selected" : ""}>Interviewing</option>
+                            <option value="Rejected" ${app.status === "Rejected" ? "selected" : ""}>Rejected</option>
+                            <option value="Offer" ${app.status === "Offer" ? "selected" : ""}>Offer</option>
+                            <option value="Accepted" ${app.status === "Accepted" ? "selected" : ""}>Accepted</option>
+                        </select>
+
+                    </div>
+
+                    <div class="application-notes-block">
+
+                        <label>
+                            Notes
+                        </label>
+
+                        <textarea
+                            id="notes-${app.id}"
+                            class="application-notes"
+                            placeholder="Add notes about this application..."
+                        >${app.notes || ""}</textarea>
+
+                    </div>
+
+                    <button onclick="updateApplicationStatus(${app.id})">
+                        Update Application
+                    </button>
 
                     <a
                         href="${app.application_url}"
                         target="_blank"
                     >
-                        View Application
+                        View Job
                     </a>
                 `;
 
                 container.appendChild(card);
+
             });
 
         })
         .catch(error => {
+
             console.error(error);
 
-            document.getElementById("applicationsList").innerHTML =
-                "<p>Error loading applications.</p>";
+            const container =
+                document.getElementById("applicationsList");
+
+            if (container) {
+                container.innerHTML =
+                    "<p>Error loading applications.</p>";
+            }
+
+        });
+}
+
+
+function updateApplicationStatus(applicationId) {
+
+    const statusInput =
+        document.getElementById(`status-${applicationId}`);
+
+    const notesInput =
+        document.getElementById(`notes-${applicationId}`);
+
+    if (!statusInput || !notesInput) {
+        return;
+    }
+
+    fetch("/api/applications/update-status/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            application_id: applicationId,
+            status: statusInput.value,
+            notes: notesInput.value
+        })
+    })
+        .then(response => response.json())
+        .then(data => {
+
+            if (data.success) {
+                alert("Application updated");
+                loadApplications();
+            }
+            else {
+                alert(data.error || "Could not update application");
+            }
+
+        })
+        .catch(error => {
+
+            console.error(error);
+            alert("Error updating application");
+
         });
 }
 
@@ -871,4 +969,311 @@ function loadDashboardOverview() {
 
     const snapshotNextStep =
         document.getElementById("snapshotNextStep");
+}
+
+function loadMarketSkills() {
+
+    const container =
+        document.getElementById("marketSkillsList");
+
+    if (!container) {
+        return;
+    }
+
+    fetch("/api/market-skills/")
+        .then(response => response.json())
+        .then(data => {
+
+            if (!data.success || data.skills.length === 0) {
+                container.innerHTML =
+                    "<p>No market skills data available yet.</p>";
+                return;
+            }
+
+            container.innerHTML = `
+                <h3>Most requested skills</h3>
+
+                <p>
+                    These skills appear most often across imported opportunities.
+                </p>
+
+                <div class="market-skills-list">
+                    ${data.skills.map((skill, index) => `
+                        <div class="market-skill-item">
+                            <span class="market-skill-rank">
+                                ${index + 1}
+                            </span>
+
+                            <div>
+                                <strong>
+                                    ${skill.name}
+                                </strong>
+
+                                <p>
+                                    ${skill.category} · ${skill.demand_count} opportunities
+                                </p>
+                            </div>
+                        </div>
+                    `).join("")}
+                </div>
+            `;
+
+        })
+        .catch(error => {
+
+            console.error(error);
+
+            container.innerHTML =
+                "<p>Error loading market skills.</p>";
+
+        });
+}
+
+function loadCareerReadiness() {
+
+    const container =
+        document.getElementById("careerReadinessCard");
+
+    if (!container) {
+        return;
+    }
+
+    fetch("/api/career-readiness/")
+        .then(response => response.json())
+        .then(data => {
+
+            if (!data.success) {
+                container.innerHTML =
+                    "<p>Career readiness data is not available.</p>";
+                return;
+            }
+
+            const skillsYouHaveHtml =
+                data.skills_you_have.length
+                    ? data.skills_you_have.map(skill => `
+                        <span class="skill-badge matched">
+                            ${skill.name}
+                        </span>
+                    `).join("")
+                    : "No top market skills matched yet.";
+
+            const missingSkillsHtml =
+                data.missing_high_impact_skills.length
+                    ? data.missing_high_impact_skills.slice(0, 5).map(skill => `
+                        <span class="skill-badge missing">
+                            ${skill.name}
+                        </span>
+                    `).join("")
+                    : "No major missing market skills.";
+
+            const nextSkill =
+                data.recommended_next_skill;
+
+            container.innerHTML = `
+                <h3>
+                    ${data.readiness_score}% Career Readiness
+                </h3>
+
+                <p>
+                    Career direction:
+                    <strong>${data.career_direction}</strong>
+                </p>
+
+                <div class="career-readiness-grid">
+
+                    <div>
+                        <strong>Skills You Already Have</strong>
+
+                        <div class="skill-badges">
+                            ${skillsYouHaveHtml}
+                        </div>
+                    </div>
+
+                    <div>
+                        <strong>Missing Top Market Skills</strong>
+
+                        <div class="skill-badges">
+                            ${missingSkillsHtml}
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="readiness-next-step">
+
+                    <strong>Recommended Next Skill</strong>
+
+                    <p>
+                        ${
+                            nextSkill
+                                ? `${nextSkill.name} appears in ${nextSkill.market_count} imported opportunities.`
+                                : "You currently cover the top market skills."
+                        }
+                    </p>
+
+                    <a href="/dashboard/resources/#market-skills">
+                        View Market Skills
+                    </a>
+
+                </div>
+            `;
+
+        })
+        .catch(error => {
+
+            console.error(error);
+
+            container.innerHTML =
+                "<p>Error loading career readiness intelligence.</p>";
+
+        });
+}
+
+
+function loadDashboardCareerReadiness() {
+
+    const container =
+        document.getElementById(
+            "dashboardCareerReadiness"
+        );
+
+    if (!container) {
+        return;
+    }
+
+    fetch("/api/career-readiness/")
+        .then(response => response.json())
+        .then(data => {
+
+            if (!data.success) {
+
+                container.innerHTML =
+                    "<p>Career readiness unavailable.</p>";
+
+                return;
+            }
+
+            let readinessLevel =
+                "Early Stage";
+
+            if (data.readiness_score >= 90) {
+
+                readinessLevel =
+                    "Highly Competitive";
+
+            }
+            else if (data.readiness_score >= 70) {
+
+                readinessLevel =
+                    "Market Ready";
+
+            }
+            else if (data.readiness_score >= 40) {
+
+                readinessLevel =
+                    "Intermediate Stage";
+
+            }
+
+            const skillsYouHave =
+                data.skills_you_have
+                    .slice(0, 3)
+                    .map(skill => `
+                        <span class="skill-badge matched">
+                            ✓ ${skill.name}
+                        </span>
+                    `)
+                    .join("");
+
+            const missingSkills =
+                data.missing_high_impact_skills
+                    .slice(0, 3)
+                    .map(skill => `
+                        <span class="skill-badge missing">
+                            ✗ ${skill.name}
+                        </span>
+                    `)
+                    .join("");
+
+            container.innerHTML = `
+
+                <div class="readiness-header">
+
+                    <div>
+
+                        <div class="readiness-score">
+                            ${data.readiness_score}%
+                        </div>
+
+                        <div class="readiness-level">
+                            ${readinessLevel}
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="readiness-content">
+
+                    <div>
+
+                        <h4>
+                            Skills You Have
+                        </h4>
+
+                        <div class="skill-badges">
+                            ${skillsYouHave}
+                        </div>
+
+                    </div>
+
+                    <div>
+
+                        <h4>
+                            Missing High-Impact Skills
+                        </h4>
+
+                        <div class="skill-badges">
+                            ${missingSkills}
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="readiness-next">
+
+                    <strong>
+                        Recommended Next Skill
+                    </strong>
+
+                    <p>
+                        ${
+                            data.recommended_next_skill
+                                ? data.recommended_next_skill.name
+                                : "You're covering the major market skills."
+                        }
+                    </p>
+
+                    <a
+                        href="/dashboard/resources/#career-readiness"
+                        class="readiness-link"
+                    >
+                        View Full Analysis
+                    </a>
+
+                </div>
+
+            `;
+
+        })
+        .catch(error => {
+
+            console.error(error);
+
+            container.innerHTML =
+                "<p>Error loading readiness data.</p>";
+
+        });
+
 }
