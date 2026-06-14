@@ -120,40 +120,94 @@ def extract_education_from_text(text):
         if line.strip()
     ]
 
-    education_keywords = [
+    institution_keywords = [
         "university",
         "college",
-        "institution",
-        "bachelor",
+        "school",
+        "institute",
+        "academy"
+    ]
+
+    qualification_keywords = [
         "bsc",
         "ba",
-        "diploma",
+        "bcom",
+        "bachelor",
         "degree",
+        "diploma",
         "certificate",
         "honours",
         "masters",
-        "phd"
+        "msc",
+        "phd",
+        "computer science",
+        "information systems",
+        "data science"
     ]
+
+    institution_lines = []
+    qualification_lines = []
 
     for line in lines:
 
         line_lower = line.lower()
 
-        if any(keyword in line_lower for keyword in education_keywords):
+        if any(keyword in line_lower for keyword in institution_keywords):
+            institution_lines.append(line)
 
-            education_entries.append({
-                "institution_name": line,
-                "qualification_name": line,
-                "field_of_study": "",
-                "start_year": None,
-                "end_year": None,
-                "source": "CV"
-            })
+        if any(keyword in line_lower for keyword in qualification_keywords):
+            qualification_lines.append(line)
+
+    max_entries = max(
+        len(institution_lines),
+        len(qualification_lines)
+    )
+
+    for index in range(max_entries):
+
+        institution_name = (
+            institution_lines[index]
+            if index < len(institution_lines)
+            else "Institution not detected"
+        )
+
+        qualification_name = (
+            qualification_lines[index]
+            if index < len(qualification_lines)
+            else "Qualification not detected"
+        )
+
+        field_of_study = ""
+
+        qualification_lower = qualification_name.lower()
+
+        if "computer science" in qualification_lower:
+            field_of_study = "Computer Science"
+
+        elif "information systems" in qualification_lower:
+            field_of_study = "Information Systems"
+
+        elif "data science" in qualification_lower:
+            field_of_study = "Data Science"
+
+        education_entries.append({
+            "institution_name": institution_name,
+            "qualification_name": qualification_name,
+            "field_of_study": field_of_study,
+            "start_year": None,
+            "end_year": None,
+            "source": "CV"
+        })
 
     return education_entries[:5]
 
 
 def save_education_to_profile(profile, education_entries):
+
+    UserEducation.objects.filter(
+        profile=profile,
+        source="CV"
+    ).delete()
 
     saved_entries = []
 
