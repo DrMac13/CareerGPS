@@ -78,12 +78,60 @@ class UserProfile(models.Model):
         auto_now=True
     )
 
+    cv_file = models.FileField(
+        upload_to="cvs/",
+        blank=True,
+        null=True
+    )
+
+    cv_text = models.TextField(
+        blank=True
+    )
+
     class Meta:
         verbose_name = "User Profile"
         verbose_name_plural = "User Profiles"
 
     def __str__(self):
         return self.user.username
+    
+class UserEducation(models.Model):
+
+    profile = models.ForeignKey(
+        UserProfile,
+        on_delete=models.CASCADE
+    )
+
+    institution_name = models.CharField(
+        max_length=200
+    )
+
+    qualification_name = models.CharField(
+        max_length=200
+    )
+
+    field_of_study = models.CharField(
+        max_length=200,
+        blank=True
+    )
+
+    start_year = models.PositiveIntegerField(
+        null=True,
+        blank=True
+    )
+
+    end_year = models.PositiveIntegerField(
+        null=True,
+        blank=True
+    )
+
+    source = models.CharField(
+        max_length=50,
+        default="CV"
+    )
+
+    def __str__(self):
+        return f"{self.qualification_name} - {self.institution_name}"
 
 
 class UserSkill(models.Model):

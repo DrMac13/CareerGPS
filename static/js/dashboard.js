@@ -6,11 +6,13 @@ document.addEventListener("DOMContentLoaded", () => {
     loadApplications();
     loadInterviewHistory();
     loadInterviewAnalytics();
+    loadProfileSummary();
     loadSavedOpportunities();
     loadDashboardOverview();
     loadMarketSkills();
     loadCareerReadiness();
     loadDashboardCareerReadiness();
+    setupCvUpload();
 
     const searchBtn = document.getElementById("searchBtn");
 
@@ -1276,4 +1278,263 @@ function loadDashboardCareerReadiness() {
 
         });
 
+}
+
+
+function setupCvUpload() {
+
+    const form = document.getElementById("cvUploadForm");
+    const fileInput = document.getElementById("cvFile");
+    const message = document.getElementById("cvUploadMessage");
+
+    if (!form || !fileInput || !message) {
+        return;
+    }
+
+    form.onsubmit = function(event) {
+
+        event.preventDefault();
+
+        if (!fileInput.files.length) {
+            message.textContent = "Please choose a CV file.";
+            return false;
+        }
+
+        const formData = new FormData();
+        formData.append("cv_file", fileInput.files[0]);
+
+        message.textContent = "Uploading and analysing CV...";
+
+        fetch("/api/profile/upload-cv/", {
+            method: "POST",
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+
+                if (data.success) {
+
+                    const skills = data.result.skills.length
+                        ? data.result.skills.join(", ")
+                        : "No skills found";
+
+                    message.textContent =
+                        `CV processed. Skills found: ${skills}`;
+
+                    loadProfileSummary();
+                    loadDashboardCareerReadiness();
+
+                } else {
+                    message.textContent =
+                        data.error || "Could not process CV.";
+                }
+
+            })
+            .catch(error => {
+                console.error(error);
+                message.textContent = "Error uploading CV.";
+            });
+
+        return false;
+    };
+}
+
+
+function loadProfileSummary() {
+
+    console.log("loadProfileSummary running");
+
+    const completionCard =
+        document.getElementById("profileCompletionCard");
+
+    const profileInfo =
+        document.getElementById("profileInfo");
+
+    const profileSkills =
+        document.getElementById("profileSkills");
+
+    const profileInterests =
+        document.getElementById("profileInterests");
+
+    const profileCV =
+        document.getElementById("profileCV");
+
+    const profileEducation =
+        document.getElementById("profileEducation");
+
+    if (
+        !completionCard ||
+        !profileInfo ||
+        !profileSkills ||
+        !profileInterests ||
+        !profileCV ||
+        !profileEducation
+    ) {
+        return;
+    }
+
+    fetch("/api/profile/summary/")
+        .then(response => response.json())
+        .then(data => {
+
+            if (!data.success || !data.profile) {
+
+                completionCard.innerHTML = `
+                    <p>No profile found.</p>
+                `;
+
+                profileInfo.innerHTML = "";
+                profileSkills.innerHTML = "";
+                profileInterests.innerHTML = "";
+
+                return;
+            }
+
+            const profile =
+                data.profile;
+
+            completionCard.innerHTML = `
+                <h3>${data.completion}% Complete</h3>
+
+                <p>
+                    CareerGPS builds your profile from your CV,
+                    extracted skills, education and career activity.
+                </p>
+
+                <div class="profile-progress">
+                    <div
+                        class="profile-progress__bar"
+                        style="width: ${data.completion}%"
+                    ></div>
+                </div>
+            `;
+
+            profileInfo.innerHTML = `
+                <div class="card">
+                    <h3>Account</h3>
+
+                    <p>
+                        <strong>Username:</strong>
+                        ${profile.username}
+                    </p>
+
+                    <p>
+                        <strong>Email:</strong>
+                        ${profile.email}
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>Location & Bio</h3>
+
+                    <p>
+                        <strong>Location:</strong>
+                        ${profile.location}
+                    </p>
+
+                    <p>
+                        <strong>Bio:</strong>
+                        ${profile.bio}
+                    </p>
+                </div>
+            `;
+
+            if (profileCV) {
+
+                const cv = data.cv;
+
+                profileCV.innerHTML = `
+                    <h3>
+                        ${
+                            cv.uploaded
+                                ? "CV Uploaded"
+                                : "No CV Uploaded"
+                        }
+                    </h3>
+
+                    <p>
+                        <strong>File:</strong>
+                        ${
+                            cv.file_name
+                                ? cv.file_name
+                                : "Not uploaded"
+                        }
+                    </p>
+
+                    <p>
+                        <strong>Extracted Text:</strong>
+                        ${cv.text_length} characters
+                    </p>
+
+                    <p>
+                        Uploading your CV allows CareerGPS to extract
+                        skills and education automatically.
+                    </p>
+                `;
+            }
+
+            if (profileEducation) {
+
+                const educationHtml =
+                    data.education.length
+                        ? data.education.map(item => `
+                            <div class="education-item">
+                                <h3>${item.qualification_name}</h3>
+
+                                <p>
+                                    <strong>Institution:</strong>
+                                    ${item.institution_name}
+                                </p>
+
+                                <p>
+                                    <strong>Source:</strong>
+                                    ${item.source}
+                                </p>
+                            </div>
+                        `).join("")
+                        : "<p>No education extracted yet.</p>";
+
+                profileEducation.innerHTML =
+                    educationHtml;
+            }
+
+            const skillsHtml =
+                data.skills.length
+                    ? data.skills.map(skill => `
+                        <span class="skill-badge matched">
+                            ${skill.name} · ${skill.proficiency_level}
+                        </span>
+                    `).join("")
+                    : "No skills added yet.";
+
+            profileSkills.innerHTML = `
+                <div class="skill-badges">
+                    ${skillsHtml}
+                </div>
+            `;
+
+            const interestsHtml =
+                data.interests.length
+                    ? data.interests.map(interest => `
+                        <span class="skill-badge matched">
+                            ${interest}
+                        </span>
+                    `).join("")
+                    : "No interests added yet.";
+
+            profileInterests.innerHTML = `
+                <div class="skill-badges">
+                    ${interestsHtml}
+                </div>
+            `;
+
+        })
+        .catch(error => {
+
+            console.error(error);
+
+            completionCard.innerHTML =
+                "<p>Error loading profile.</p>";
+
+        });
 }

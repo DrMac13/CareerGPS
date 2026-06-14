@@ -117,6 +117,8 @@ urlpatterns = [
 
     path("", include("interviews.urls")),
     path("api/", include("analytics.urls")),
+    
+    path("api/profile/", include("profiles.urls")),
 
     path("api/", include("recommendations.urls")),
     path("api/", include("bookmarks.urls")),

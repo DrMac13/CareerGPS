@@ -47,6 +47,21 @@
         <section class="section">
 
             <h2 class="section__title">
+                CV Status
+            </h2>
+
+            <div
+                id="profileCV"
+                class="card"
+            >
+                Loading CV information...
+            </div>
+
+        </section>
+
+        <section class="section">
+
+            <h2 class="section__title">
                 Personal Information
             </h2>
 
@@ -58,6 +73,24 @@
             </div>
 
         </section>
+
+
+        <section class="section">
+
+            <h2 class="section__title">
+                Education Extracted from CV
+            </h2>
+
+            <div
+                id="profileEducation"
+                class="card-grid"
+            >
+                Loading education...
+            </div>
+
+        </section>
+
+
 
         <section class="section">
 
@@ -85,6 +118,52 @@
                 class="card"
             >
                 Loading interests...
+            </div>
+
+        </section>
+
+        <section class="section">
+
+            <h2 class="section__title">
+                Upload CV
+            </h2>
+
+            <div class="card">
+
+                <p>
+                    Upload your CV so CareerGPS can extract skills and education
+                    details to improve your recommendations.
+                </p>
+
+            <form
+                id="cvUploadForm"
+                class="cv-upload-form"
+                enctype="multipart/form-data"
+                method="post"
+                action="/api/profile/upload-cv/"
+                >
+
+                <input
+                    type="file"
+                    id="cvFile"
+                    name="cv_file"
+                    accept=".txt,.pdf,.docx"
+                    required
+                >
+
+                <button type="submit">
+                    Upload and Analyse CV
+                </button>
+
+            </form>
+
+            <p
+                id="cvUploadMessage"
+                class="auth-message"
+            ></p>
+
+
+
             </div>
 
         </section>

@@ -4,7 +4,8 @@ from django.http import JsonResponse
 from profiles.models import (
     UserProfile,
     UserSkill,
-    UserInterest
+    UserInterest,
+    UserEducation
 )
 
 def login_page(request):
@@ -110,6 +111,13 @@ def profile_summary_api(request):
         "interest"
     )
 
+    education_entries = UserEducation.objects.filter(
+        profile=profile
+    ).order_by(
+        "-end_year",
+        "-start_year"
+    )
+
     checks = [
         bool(profile.institution),
         bool(profile.degree_program),
@@ -138,6 +146,26 @@ def profile_summary_api(request):
             "updated_at": profile.updated_at.strftime("%Y-%m-%d"),
         },
         "completion": completion,
+
+        "cv": {
+            "uploaded": bool(profile.cv_file),
+            "file_name": profile.cv_file.name if profile.cv_file else None,
+            "text_length": len(profile.cv_text or ""),
+        },
+
+        "education": [
+            {
+                "institution_name": item.institution_name,
+                "qualification_name": item.qualification_name,
+                "field_of_study": item.field_of_study,
+                "start_year": item.start_year,
+                "end_year": item.end_year,
+                "source": item.source,
+            }
+            for item in education_entries
+        ],
+
+
         "skills": [
             {
                 "name": item.skill.name,
